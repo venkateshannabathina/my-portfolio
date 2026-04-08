@@ -46,7 +46,6 @@
             top: 0;
             z-index: 100;
             background: var(--bg);
-            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -216,27 +215,13 @@
             color: var(--text);
         }
     
-        /* CUSTOM CURSOR */
-        body, a, button {
-            cursor: none !important;
-        }
-        .custom-cursor {
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--text);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
-        }
+
 
     </style>
 </head>
 
 <body>
-    <div class="custom-cursor"></div>
+
 
 
     <nav>
@@ -261,24 +246,23 @@
             }
         });
     
-        const customCursor = document.querySelector(".custom-cursor");
-        document.addEventListener("mousemove", (e) => {
-            customCursor.style.left = e.clientX + "px";
-            customCursor.style.top = e.clientY + "px";
-        });
-        document.querySelectorAll("a, button").forEach(el => {
-            el.addEventListener("mouseenter", () => {
-                customCursor.style.width = "40px";
-                customCursor.style.height = "40px";
-                customCursor.style.backgroundColor = "rgba(10, 10, 10, 0.1)";
-            });
-            el.addEventListener("mouseleave", () => {
-                customCursor.style.width = "24px";
-                customCursor.style.height = "24px";
-                customCursor.style.backgroundColor = "transparent";
-            });
-        });
 
+
+    </script>
+
+    <style>
+        * {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+        }
+    </style>
+    <script>
+        document.addEventListener("dragstart", function(e) {
+            e.preventDefault();
+        });
     </script>
 </body>
 

@@ -45,7 +45,6 @@
             top: 0;
             z-index: 100;
             background: var(--bg);
-            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -214,33 +213,16 @@
             font-weight: 700;
             color: var(--text);
         }
-    
-        /* CUSTOM CURSOR */
-        body, a, button {
-            cursor: none !important;
-        }
-        .custom-cursor {
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--text);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
-        }
-
     </style>
 </head>
 
 <body>
-    <div class="custom-cursor"></div>
+
 
 
     <nav>
         <a href="#" class="nav-logo">Dev<span class="logo-rest">eloper</span></a>
-                <ul class="nav-links">
+        <ul class="nav-links">
             <li><a href="about.html" target="_self" class="active">About</a></li>
             <li><a href="projects.html" target="_self">Projects</a></li>
             <li><a href="stack.html" target="_self">Stack</a></li>
@@ -263,17 +245,34 @@
         </div>
 
         <div class="article-body">
+
             <p>
-                I'm <strong>Venkatesh Annabathina</strong> — a second-year B.Tech Computer Science student at Lovely
-                Professional University, Punjab. I'm originally from Andhra Pradesh, and I go by <strong>KV</strong> or
-                <a href="https://github.com/keyvenslab">@keyvenslab</a> online.
+            <p>Ever since I was a kid, I’ve been fascinated by robotics and artificial
+                intelligence not just because
+                they’re impressive, but because they hint at what <strong>the future</strong> could look like.</p>
+
+            <p>That early curiosity didn’t fade; it intensified over time. Today, it feels like
+                a driving force pushing
+                me to <strong>explore</strong>, <strong>learn</strong>, and <strong>build</strong>. We are moving toward
+                a future shaped by
+                <strong>transformative technologies</strong>,
+                <strong>superintelligent systems</strong>, <strong>autonomous machines</strong>, and
+                <strong>breakthroughs</strong> that could
+                redefine <strong>human potential</strong>.
+                With artificial intelligence, we have the opportunity to solve complex
+                global problems, accelerate
+                <strong>scientific discovery</strong>, and even extend human presence <strong>beyond Earth</strong>.
             </p>
-            <p>
-                My focus is agentic AI systems, full-stack engineering, and 3D creative tech. I don't just study this —
-                I build it. 20+ projects shipped, hackathons entered, open source contributed to. The work is real.
-            </p>
-            <p>
-                Long-term goal: build the most realistic, human-like AI possible. Not as a product pitch — as a mission.
+
+            <p>I believe AI will play a central role in answering some of the biggest
+                questions we’ve ever asked about
+                intelligence, <strong>consciousness</strong>, and our place in the universe.</p>
+
+            <p>And I want to be part of that journey.</p>
+
+            <p>I am Venkatesh Annabathina, and I aspire to contribute—no matter how small my role may be—to this larger
+                mission. Even a fraction of <strong>impact</strong> in advancing AI and robotics is enough to give my
+                work meaning.</p>
             </p>
         </div>
 
@@ -288,24 +287,8 @@
                 nav.classList.remove('scrolled');
             }
         });
-    
-        const customCursor = document.querySelector(".custom-cursor");
-        document.addEventListener("mousemove", (e) => {
-            customCursor.style.left = e.clientX + "px";
-            customCursor.style.top = e.clientY + "px";
-        });
-        document.querySelectorAll("a, button").forEach(el => {
-            el.addEventListener("mouseenter", () => {
-                customCursor.style.width = "40px";
-                customCursor.style.height = "40px";
-                customCursor.style.backgroundColor = "rgba(10, 10, 10, 0.1)";
-            });
-            el.addEventListener("mouseleave", () => {
-                customCursor.style.width = "24px";
-                customCursor.style.height = "24px";
-                customCursor.style.backgroundColor = "transparent";
-            });
-        });
+
+
 
     </script>
 </body>
