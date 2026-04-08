@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D AI News Reporter — 24Live</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #F5F3EE;
+            --surface: #ECEAE3;
+            --text: #0a0a0a;
+            --muted: #6b6b6b;
+            --border: #dddad4;
+            --accent: #C97B63;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Nav (Standardized) */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            height: 56px;
+            transition: border-bottom 0.3s ease;
+        }
+
+        nav.scrolled {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-rest {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: max-width 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+            max-width: 120px;
+            opacity: 1;
+        }
+
+        nav.scrolled .logo-rest {
+            max-width: 0;
+            opacity: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .nav-links a.active {
+            color: var(--text);
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            text-decoration-thickness: 2px;
+        }
+
+        .nav-cta {
+            background: var(--text) !important;
+            color: var(--bg) !important;
+            padding: 9px 22px !important;
+            border-radius: 100px !important;
+            font-weight: 700 !important;
+            text-decoration: none;
+            font-size: 0.88rem;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+
+        .newsroom-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-top: 100px;
+            padding-bottom: 30px;
+        }
+
+        .newsroom-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 80px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
+            color: var(--text);
+        }
+
+        .sidebar {
+            width: 440px;
+        }
+
+        .inquiry-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .inquiry-item:first-child {
+            border-top: 1px solid var(--border);
+        }
+
+        .inquiry-label {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .feature-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 60px;
+        }
+
+        .feature-grid {
+            display: flex;
+            gap: 60px;
+            margin-bottom: 120px;
+        }
+
+        .feature-main {
+            flex: 1.6;
+        }
+
+        .feature-video-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .feature-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .article-list {
+            flex: 1;
+        }
+
+        .article-item {
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+
+        .article-item:last-child {
+            border-bottom: none;
+        }
+
+        .article-meta {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .article-title {
+            font-family: 'Newsreader', serif;
+            font-size: 26px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--text);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .main-content {
+            max-width: 800px;
+            margin-bottom: 120px;
+        }
+
+        .content-heading {
+            font-family: 'Newsreader', serif;
+            font-size: 38px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            margin-top: 80px;
+            color: var(--text);
+        }
+
+        .content-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #2a2a2a;
+            margin-bottom: 32px;
+        }
+
+        pre {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 32px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        footer {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        @media (max-width: 1024px) {
+            .newsroom-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .sidebar {
+                width: 100%;
+            }
+            .feature-grid {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="mainNav">
+        <a href="about.html" class="nav-logo">Dev<span class="logo-rest">eloper</span></a>
+        <ul class="nav-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html" class="active">Projects</a></li>
+            <li><a href="stack.html">Stack</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="journey.html" class="nav-cta">Journey</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header class="newsroom-header">
+            <h1 class="newsroom-title">24Live</h1>
+            <div class="sidebar">
+                <a href="#" class="inquiry-item">
+                    <span class="inquiry-label">Project</span>
+                    <span class="inquiry-value">3D AI News Reporter</span>
+                </a>
+                <a href="#" class="inquiry-item">
+                    <span class="inquiry-label">Tech Stack</span>
+                    <span class="inquiry-value">Three.js / FastAPI</span>
+                </a>
+                <a href="https://github.com/venkateshannabathina/24Live.git" target="_blank" class="inquiry-item">
+                    <span class="inquiry-label">GitHub Repo</span>
+                    <span class="inquiry-value">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inquiry-icon"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        24Live
+                    </span>
+                </a>
+            </div>
+        </header>
+
+        <div class="feature-divider"></div>
+
+        <div class="feature-grid">
+            <div class="feature-main">
+                <div class="feature-video-container">
+                    <!-- YouTube Live Video Embed -->
+                    <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube.com/embed/cgsFTmZhXuc?autoplay=1&mute=1" 
+                        title="24Live Demo" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen 
+                        style="position: absolute; top: 0; left: 0;">
+                    </iframe>
+                </div>
+            </div>
+
+            <div class="article-list">
+                <div class="article-item">
+                    <div class="article-meta">System Overview</div>
+                    <a href="#" class="article-title">Real-time News Loop</a>
+                    <p>Fully autonomous broadcasting loop that fetches stories from RSS feeds and NewsAPI, generating professional broadcast scripts instantly.</p>
+                </div>
+
+                <div class="article-item">
+                    <div class="article-meta">Animation Engine</div>
+                    <a href="#" class="article-title">Dynamic LipSync</a>
+                    <p>Advanced LipSync manager driving VRM blend shapes from decoded audio phonemes for natural speech synchronization.</p>
+                </div>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <h2 class="content-heading" style="margin-top: 0;">Vision</h2>
+            <p class="content-text">
+                A fully autonomous, real-time interactive 3D AI news reporter. Built with a VRM character model, voice input/output, emotion detection, and an autonomous news broadcasting loop. The character reads real-time news with synchronized lip movements and facial expressions, complete with a professional TV broadcast overlay.
+            </p>
+
+            <h2 class="content-heading">Engineering the Frontend</h2>
+            <p class="content-text">
+                The presentation layer handles 3D rendering (Three.js), animations, and the UI overlay. The <code>Viewer.js</code> initializes the scene, while <code>LipSyncManager.js</code> dynamically drives the mouth movements to match the Edge TTS output.
+            </p>
+
+            <h2 class="content-heading">The Intelligence Backend</h2>
+            <p class="content-text">
+                A FastAPI logic layer handles everything from emotion detection to news aggregation. <code>news_fetcher.py</code> deduplicates stories from BBC and NewsAPI, providing the script payload for the frontend loop.
+            </p>
+
+            <h2 class="content-heading">Core Components</h2>
+            <pre><code>├── frontend/           # React + Three.js App
+│   ├── src/
+│   │   ├── Viewer.js   # Three.js Scene Loader
+│   │   ├── App.jsx     # Broadcast state management
+│   │   └── hooks/
+│   │       └── useNewsLoop.js # Autonomous engine
+└── server/             # FastAPI Backend
+    ├── main.py         # AI & TTS API
+    └── news_fetcher.py # RSS Aggregator</code></pre>
+        </main>
+
+        <footer>
+            <div class="footer-left">&copy; 2026 Venkatesh Annabathina</div>
+            <div class="footer-right">24Live — AI Broadcasting</div>
+        </footer>
+    </div>
+
+    <script>
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>

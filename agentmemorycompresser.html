@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>agent-memory-compresser</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #F5F3EE;
+            --surface: #ECEAE3;
+            --text: #0a0a0a;
+            --muted: #6b6b6b;
+            --border: #dddad4;
+            --accent: #C97B63;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Portfolio-Standard Navigation (Exactly like about.html) */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            height: 56px;
+            transition: border-bottom 0.3s ease;
+        }
+
+        nav.scrolled {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-rest {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: max-width 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+            max-width: 120px;
+            opacity: 1;
+        }
+
+        nav.scrolled .logo-rest {
+            max-width: 0;
+            opacity: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-links a.active {
+            color: var(--text);
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            text-decoration-thickness: 2px;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-cta {
+            background: var(--text) !important;
+            color: var(--bg) !important;
+            padding: 9px 22px !important;
+            border-radius: 100px !important;
+            font-weight: 700 !important;
+            text-decoration: none;
+            font-size: 0.88rem;
+        }
+
+        /* Newsroom Layout Components */
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+
+        .newsroom-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-top: 100px;
+            padding-bottom: 30px;
+        }
+
+        .newsroom-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 80px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
+            color: var(--text);
+        }
+
+        .sidebar {
+            width: 440px;
+        }
+
+        .inquiry-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .inquiry-item:first-child {
+            border-top: 1px solid var(--border);
+        }
+
+        .inquiry-label {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .inquiry-value {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .inquiry-icon {
+            opacity: 0.6;
+        }
+
+        .feature-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 60px;
+        }
+
+        .feature-grid {
+            display: flex;
+            gap: 60px;
+            margin-bottom: 120px;
+        }
+
+        .feature-main {
+            flex: 1.6;
+        }
+
+        .feature-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: var(--surface);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .article-list {
+            flex: 1;
+        }
+
+        .article-item {
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+
+        .article-item:last-child {
+            border-bottom: none;
+        }
+
+        .article-meta {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .article-title {
+            font-family: 'Newsreader', serif;
+            font-size: 26px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--text);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .article-title:hover {
+            color: var(--accent);
+        }
+
+        .article-category {
+            display: inline-block;
+            font-weight: 800;
+            color: var(--accent);
+            margin-right: 8px;
+        }
+
+        .article-desc {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--muted);
+        }
+
+        .main-content {
+            max-width: 800px;
+            margin-bottom: 120px;
+        }
+
+        .content-heading {
+            font-family: 'Newsreader', serif;
+            font-size: 38px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            margin-top: 80px;
+            color: var(--text);
+        }
+
+        .content-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #2a2a2a;
+            margin-bottom: 32px;
+        }
+
+        .example-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 12px;
+            font-style: italic;
+            margin: 40px 0;
+            font-size: 1.1rem;
+            color: var(--text);
+            border-left: 6px solid var(--accent);
+        }
+
+        .table-container {
+            margin: 40px 0;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 16px 0;
+            border-bottom: 2px solid var(--text);
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        td {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 15px;
+            vertical-align: top;
+            color: #2a2a2a;
+        }
+
+        pre {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 32px 0;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        footer {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        @media (max-width: 1024px) {
+            .newsroom-header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-top: 60px;
+            }
+
+            .newsroom-title {
+                font-size: 60px;
+                margin-bottom: 40px;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .feature-grid {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            nav {
+                padding: 0 24px;
+            }
+
+            .container {
+                padding: 0 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation (Smooth Logo Expansion) -->
+    <nav id="mainNav">
+        <a href="about.html" class="nav-logo">Dev<span class="logo-rest">eloper</span></a>
+        <ul class="nav-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html" class="active">Projects</a></li>
+            <li><a href="stack.html">Stack</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="journey.html" class="nav-cta">Journey</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="newsroom-header">
+            <h1 class="newsroom-title">Agent Memory Compressor</h1>
+            <div class="sidebar">
+                <a href="https://huggingface.co/spaces/venkateshannabathina/agent-memory-compressor" target="_blank"
+                    class="inquiry-item">
+                    <span class="inquiry-label">Hugging Face</span>
+                    <span class="inquiry-value">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inquiry-icon">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                        View Space
+                    </span>
+                </a>
+                <a href="https://github.com/venkateshannabathina/agent-memory-compresser.git" target="_blank"
+                    class="inquiry-item">
+                    <span class="inquiry-label">GitHub Repo</span>
+                    <span class="inquiry-value">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inquiry-icon">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                            </path>
+                        </svg>
+                        agent-memory
+                    </span>
+                </a>
+                <a href="#" class="inquiry-item">
+                    <span class="inquiry-label">Hackathon</span>
+                    <span class="inquiry-value">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inquiry-icon">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        Meta x Scaler 2026
+                    </span>
+                </a>
+            </div>
+        </header>
+
+        <div class="feature-divider"></div>
+
+        <!-- Featured Section -->
+        <div class="feature-grid">
+            <div class="feature-main">
+                <div class="feature-image">
+                    <svg viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        style="width: 100%; height: 100%; background: var(--surface);">
+                        <rect x="100" y="80" width="400" height="240" rx="8" stroke="var(--text)" stroke-width="2"
+                            fill="var(--bg)" />
+                        <path d="M150 140 H450 M150 180 H400 M150 220 H350" stroke="var(--text)" stroke-width="1"
+                            stroke-dasharray="4 4" />
+                        <circle cx="300" cy="200" r="50" stroke="var(--text)" stroke-width="2" fill="var(--surface)" />
+                        <text x="275" y="205" font-family="Inter" font-size="12" font-weight="900"
+                            fill="var(--text)">AGENT</text>
+                        <path d="M300 150 V250 M250 200 H350" stroke="var(--accent)" stroke-width="2" opacity="0.5" />
+                        <text x="100" y="60" font-family="Inter" font-size="14" font-weight="800"
+                            fill="var(--text)">SYSTEM_MEM_COMPRESSOR_V1.0</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="article-list">
+                <div class="article-item">
+                    <div class="article-meta">April 8, 2026</div>
+                    <a href="#" class="article-title">Environment Overview</a>
+                    <p class="article-desc">An OpenEnv reinforcement learning environment that trains agents to compress
+                        bloated conversation histories while preserving critical facts.</p>
+                </div>
+
+                <div class="article-item">
+                    <div class="article-meta"><span class="article-category">Technical</span> February 17, 2026</div>
+                    <a href="#" class="article-title">Architecture Specs</a>
+                    <p class="article-desc">Stateless HTTP REST API built on FastAPI, supporting multi-tier compression
+                        tasks with deterministic scoring models.</p>
+                </div>
+
+                <div class="article-item">
+                    <div class="article-meta"><span class="article-category">Research</span> February 5, 2026</div>
+                    <a href="#" class="article-title">Project Vision</a>
+                    <p class="article-desc">Solving the context window scaling problem for autonomous agents through
+                        intelligent facts-first data reduction.</p>
+                </div>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <h2 class="content-heading" style="margin-top: 0;">Motivation</h2>
+            <p class="content-text">
+                AI agents in production break down as conversations grow long. They lose track of key facts, get
+                confused by contradictions across sessions, and eventually exceed their context window. This environment
+                simulates that exact problem.
+            </p>
+
+            <div class="example-block">
+                Compressing "User mentioned their name is Venky at 8am, then at 9am they said they love coffee"
+                into <strong>"User: Venky, loves coffee."</strong>
+            </div>
+
+            <h2 class="content-heading">Technical Core</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Specification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Environment</td>
+                            <td>OpenEnv RL Wrapper</td>
+                        </tr>
+                        <tr>
+                            <td>Engine</td>
+                            <td>FastAPI / Pydantic v2</td>
+                        </tr>
+                        <tr>
+                            <td>Complexity</td>
+                            <td>Easy, Medium, Hard tiers</td>
+                        </tr>
+                        <tr>
+                            <td>Observation</td>
+                            <td>Full text history + Metadata</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="content-heading">Reward Intelligence</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Criterion</th>
+                            <th>Weight</th>
+                            <th>Mechanism</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fact Retention</td>
+                            <td>0.5</td>
+                            <td>Semantic similarity check</td>
+                        </tr>
+                        <tr>
+                            <td>Conciseness</td>
+                            <td>0.2</td>
+                            <td>Token reduction ratio</td>
+                        </tr>
+                        <tr>
+                            <td>Contradiction Resol.</td>
+                            <td>0.2</td>
+                            <td>Logical consistency score</td>
+                        </tr>
+                        <tr>
+                            <td>Hallucination</td>
+                            <td>-0.3</td>
+                            <td>Penalty for ungrounded info</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="content-heading">Implementation</h2>
+            <pre><code># Install dependencies
+pip install openenv fastapi pydantic
+
+# Run the compression engine
+uvicorn app.main:app --port 7860</code></pre>
+
+            <p class="content-text" style="font-weight: 700; color: var(--accent); margin-top: 60px;">
+                Designed for the Meta x Scaler Hackathon 2026.
+            </p>
+        </main>
+
+        <footer>
+            <div class="footer-left">&copy; 2026 Venkatesh Annabathina</div>
+            <div class="footer-right">agent-memory-compresser</div>
+        </footer>
+    </div>
+
+    <script>
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>
