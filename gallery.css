@@ -101,9 +101,9 @@ body.star-light .clock { color:#111; }
 .face-button {
   position:absolute;
   z-index:3;
-  top:max(66px, calc(25cqb - clamp(80px,35.7cqi,357px) / 6 + 16px));
-  left:50%;
-  transform:translate(-50%,-50%);
+  top:50%;
+  left:calc(50% + clamp(80px,35.7cqi,357px) / 2 + clamp(12px,3cqi,36px));
+  transform:translateY(-50%);
   display:grid;
   place-items:center;
   width:64px;
