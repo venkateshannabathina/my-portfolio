@@ -155,3 +155,5 @@ body.star-light .clock { color:#111; }
 .face-button:is(:hover,:focus-visible)::before,
 .face-button:is(:hover,:focus-visible) .face-label { visibility:visible; }
 .face-button:is(:hover,:focus-visible) svg { color:#5e5e5e; }
+
+.gallery-list .row-title { visibility:hidden; }
