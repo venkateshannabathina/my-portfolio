@@ -112,12 +112,12 @@ body.star-light .clock { color:#111; }
   transform:translate(-50%,-50%);
   display:grid;
   place-items:center;
-  width:44px;
-  height:44px;
+  width:64px;
+  height:64px;
   padding:0;
-  border:1px solid #888;
+  border:1px solid #dedede;
   border-radius:50%;
-  background:#000;
-  color:#fff;
+  background:#fff;
+  color:#000;
 }
 .face-button[hidden] { display:none; }
