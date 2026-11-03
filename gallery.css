@@ -123,3 +123,41 @@ body.star-light .clock { color:#111; }
   color:#000;
 }
 .face-button[hidden] { display:none; }
+
+.face-button::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:#111212;
+  clip-path:inset(100% 0 0);
+  transition:clip-path 240ms ease;
+  pointer-events:none;
+}
+.face-button svg {
+  position:relative;
+  transition:color 240ms ease;
+}
+.face-label {
+  position:absolute;
+  bottom:calc(100% + 10px);
+  left:50%;
+  transform:translate(-50%, 4px);
+  padding:16px 30px;
+  border-radius:8px;
+  background:#eff0f0;
+  color:#fff;
+  font:600 28px/1.2 system-ui,sans-serif;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 180ms ease, transform 180ms ease;
+}
+.face-button:is(:hover,:focus-visible)::before { clip-path:inset(63% 0 0); }
+.face-button:is(:hover,:focus-visible) svg { color:#5e5e5e; }
+.face-button:is(:hover,:focus-visible) .face-label {
+  opacity:1;
+  transform:translate(-50%,0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .face-button::before, .face-button svg, .face-label { transition:none; }
+}
