@@ -58,8 +58,16 @@ let frame = null;
 
 function update() {
   frame = null;
-  const range = scrollArea.scrollHeight - scrollArea.clientHeight;
-  const progress = (range > 0 ? scrollArea.scrollTop / range : 0) * Math.max(items.length - 1, 1);
+  const height = scrollArea.clientHeight;
+  const travel = Math.max(0, height / 2 - mediaLayer.lastElementChild.offsetHeight / 2 - 64);
+  gallery.style.setProperty('--star-travel', `${travel}px`);
+  const range = scrollArea.scrollHeight - height - travel;
+  const lift = Math.max(0, Math.min(travel, scrollArea.scrollTop - range));
+  const reveal = travel > 0 ? lift / travel : 0;
+  gallery.style.setProperty('--star-lift', `${reducedMotion.matches ? (reveal >= .5 ? travel : 0) : lift}px`);
+  gallery.style.setProperty('--star-reveal', `${reducedMotion.matches ? (reveal >= .5 ? 100 : 0) : reveal * 100}%`);
+  document.body.classList.toggle('star-light', reveal >= .5);
+  const progress = (range > 0 ? Math.min(1, scrollArea.scrollTop / range) : 0) * Math.max(items.length - 1, 1);
   const amplitude = reducedMotion.matches ? 0 : Math.min(94, width * .12);
   const selected = Math.max(0, Math.min(items.length - 1, Math.round(progress)));
   aboutName.dataset.visible = String(selected === 0);

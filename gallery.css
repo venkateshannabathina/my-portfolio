@@ -74,3 +74,17 @@ li[data-selected="true"] .row-symbol { opacity:1; visibility:visible; transform:
 .badge-bottom,.badge-border { position:absolute; inset:0; border-radius:11px; box-shadow:inset 0 0 0 1px #000; pointer-events:none; }
 .badge-bottom { opacity:.06; mask:linear-gradient(180deg,#0000 65%,#000 100%); }
 .badge-border { opacity:.04; }
+
+/* The final scroll segment lifts the existing artwork while white rises behind it. */
+.gallery-list { padding-bottom:calc(50cqb + var(--star-travel, 0px)); }
+.gallery::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:#fff;
+  clip-path:inset(calc(100% - var(--star-reveal, 0%)) 0 0);
+  pointer-events:none;
+}
+.gallery-media > :last-child { top:calc(50% - var(--star-lift, 0px)); }
+body.star-light .gallery-list li:not(.row-accent) { color:#666; }
+body.star-light .clock { color:#111; }
