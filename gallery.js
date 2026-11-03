@@ -4,6 +4,7 @@ const gallery = document.querySelector('.gallery');
 const scrollArea = document.querySelector('.gallery-scroll');
 const list = document.querySelector('.gallery-list');
 const mediaLayer = document.querySelector('.gallery-media');
+const clock = document.querySelector('.clock');
 const aboutName = document.querySelector('.about-name');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -66,7 +67,8 @@ function update() {
   const reveal = travel > 0 ? lift / travel : 0;
   gallery.style.setProperty('--star-lift', `${reducedMotion.matches ? (reveal >= .5 ? travel : 0) : lift}px`);
   gallery.style.setProperty('--star-reveal', `${reducedMotion.matches ? (reveal >= .5 ? 100 : 0) : reveal * 100}%`);
-  document.body.classList.toggle('star-light', reveal >= .5);
+  const wipeTop = height * (1 - (reducedMotion.matches ? Number(reveal >= .5) : reveal));
+  document.body.classList.toggle('star-light', wipeTop < clock.getBoundingClientRect().bottom);
   const progress = (range > 0 ? Math.min(1, scrollArea.scrollTop / range) : 0) * Math.max(items.length - 1, 1);
   const amplitude = reducedMotion.matches ? 0 : Math.min(94, width * .12);
   const selected = Math.max(0, Math.min(items.length - 1, Math.round(progress)));
