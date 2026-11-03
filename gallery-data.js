@@ -14,20 +14,6 @@ export const items = [
     "symbol": "assets/icons/briefcase-business.svg"
   },
   {
-    "title": "Motivation",
-    "subtitle": "原動力",
-    "kind": "img",
-    "src": "assets/motivation-current.gif",
-    "symbol": "assets/icons/flame.svg"
-  },
-  {
-    "title": "Hobbies",
-    "subtitle": "趣味",
-    "kind": "img",
-    "src": "assets/hobbies-current.gif",
-    "symbol": "assets/icons/gamepad-2.svg"
-  },
-  {
     "title": "Artifacts",
     "subtitle": "制作物",
     "kind": "img",
