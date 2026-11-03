@@ -1,0 +1,58 @@
+@font-face {
+  font-family: Satoshi;
+  src: url('assets/satoshi-bold.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+}
+
+body { background: #000; }
+
+.intro-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: #000;
+  opacity: 1;
+  transition: opacity 750ms ease 150ms;
+}
+
+.clock {
+  position: fixed;
+  z-index: 11;
+  top: 50%;
+  left: 50vw;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  margin: 0;
+  color: #fff;
+  font-family: Satoshi, sans-serif;
+  font-size: clamp(20px, 3.5vw, 42px);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center;
+  transition: top 950ms cubic-bezier(.76, 0, .24, 1),
+    transform 950ms cubic-bezier(.76, 0, .24, 1);
+}
+
+body.is-docked .clock {
+  top: calc(32px + env(safe-area-inset-top, 0px));
+  transform: translate(-50%, -50%) scale(var(--clock-dock-scale, .380952381));
+}
+
+body.is-docked .intro-shade { opacity: 0; pointer-events: none; }
+body[data-intro-phase="complete"] .intro-shade { visibility: hidden; }
+
+body .badge-container { opacity: 0; transition: opacity 600ms ease 300ms; }
+body.is-docked .badge-container { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .clock { transition: none; }
+  .intro-shade { transition: opacity 200ms ease; }
+  body .badge-container { transition: opacity 200ms ease; }
+}
