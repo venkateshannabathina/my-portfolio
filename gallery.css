@@ -103,3 +103,27 @@ body.star-light .clock { color:#111; }
 }
 .row-devoured .row-title::after { left:0; }
 .row-devoured .row-right::after { right:0; }
+
+.face-button {
+  position:absolute;
+  z-index:3;
+  top:max(66px, calc(25cqb - clamp(80px,35.7cqi,357px) / 6 + 16px));
+  left:50%;
+  transform:translate(-50%,-50%);
+  display:grid;
+  place-items:center;
+  width:44px;
+  height:44px;
+  padding:0;
+  border:1px solid #888;
+  border-radius:50%;
+  background:#000;
+  color:#fff;
+  cursor:pointer;
+}
+.gallery:has(.about-name[data-visible="true"]) .face-button {
+  top:max(66px, calc(25cqb - clamp(80px,35.7cqi,357px) / 6 - clamp(19px,4cqi,38px)));
+}
+.face-button:hover { border-color:#fff; }
+.face-button:focus-visible { outline:2px solid #fff; outline-offset:4px; }
+.gallery[data-star-revealing="true"] .face-button { visibility:hidden; }
