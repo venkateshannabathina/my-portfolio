@@ -112,10 +112,11 @@ body.star-light .clock { color:#111; }
   transform:translate(-50%,-50%);
   display:grid;
   place-items:center;
-  width:64px;
-  height:64px;
+  width:130px;
+  height:130px;
+  box-sizing:border-box;
   padding:0;
-  border:1px solid #dedede;
+  border:2px solid #e1e1e1;
   border-radius:50%;
   background:#fff;
   color:#000;
