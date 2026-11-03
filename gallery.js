@@ -4,7 +4,6 @@ const gallery = document.querySelector('.gallery');
 const scrollArea = document.querySelector('.gallery-scroll');
 const list = document.querySelector('.gallery-list');
 const mediaLayer = document.querySelector('.gallery-media');
-const counter = document.querySelector('.gallery-counter');
 const aboutName = document.querySelector('.about-name');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -56,7 +55,6 @@ const media = items.map(item => {
 let width = gallery.clientWidth || 1200;
 let visible = true;
 let frame = null;
-let active = 0;
 
 function update() {
   frame = null;
@@ -79,11 +77,6 @@ function update() {
       else media[index].pause();
     }
   });
-
-  if (selected !== active) {
-    active = selected;
-    counter.textContent = `${String(active + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
-  }
 }
 
 function scheduleUpdate() {
