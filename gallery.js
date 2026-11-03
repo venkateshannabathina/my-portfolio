@@ -62,13 +62,19 @@ function update() {
   frame = null;
   const height = scrollArea.clientHeight;
   const travel = Math.max(0, height / 2 - mediaLayer.lastElementChild.offsetHeight / 2 - 64);
-  gallery.style.setProperty('--star-travel', `${travel}px`);
-  const range = scrollArea.scrollHeight - height - travel;
-  const lift = Math.max(0, Math.min(travel, scrollArea.scrollTop - range));
-  const reveal = travel > 0 ? lift / travel : 0;
-  gallery.style.setProperty('--star-lift', `${reducedMotion.matches ? (reveal >= .5 ? travel : 0) : lift}px`);
-  gallery.style.setProperty('--star-reveal', `${reducedMotion.matches ? (reveal >= .5 ? 100 : 0) : reveal * 100}%`);
-  const wipeTop = height * (1 - (reducedMotion.matches ? Number(reveal >= .5) : reveal));
+  const scrollDistance = travel * 1.5;
+  gallery.style.setProperty('--star-travel', `${scrollDistance}px`);
+  const range = scrollArea.scrollHeight - height - scrollDistance;
+  const extraScroll = Math.max(0, Math.min(scrollDistance, scrollArea.scrollTop - range));
+  const progressIntoStar = scrollDistance > 0 ? extraScroll / scrollDistance : 0;
+  const reveal = reducedMotion.matches
+    ? Number(progressIntoStar >= .5)
+    : progressIntoStar ** 2 * (3 - 2 * progressIntoStar);
+  const lift = travel * reveal;
+  gallery.style.setProperty('--star-lift', `${lift}px`);
+  gallery.style.setProperty('--star-row-offset', `${extraScroll - lift}px`);
+  gallery.style.setProperty('--star-reveal', `${reveal * 100}%`);
+  const wipeTop = height * (1 - reveal);
   document.body.classList.toggle('star-light', wipeTop < clock.getBoundingClientRect().bottom);
   const progress = (range > 0 ? Math.min(1, scrollArea.scrollTop / range) : 0) * Math.max(items.length - 1, 1);
   const amplitude = reducedMotion.matches ? 0 : Math.min(94, width * .12);
@@ -80,7 +86,7 @@ function update() {
   const galleryTop = gallery.getBoundingClientRect().top;
   rows.forEach((row, index) => {
     const rowBottom = row.getBoundingClientRect().bottom - galleryTop;
-    row.classList.toggle('row-devoured', reveal > 0 && rowBottom >= wipeTop && !items[index].accent);
+    row.classList.toggle('row-devoured', progressIntoStar > 0 && rowBottom >= wipeTop && !items[index].accent);
     const distance = index - progress;
     row.style.paddingInline = `${(Math.sin(distance * Math.PI / 5) + 1) * amplitude}px`;
     const isSelected = index === selected;

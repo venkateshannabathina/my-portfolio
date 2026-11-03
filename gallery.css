@@ -85,6 +85,7 @@ li[data-selected="true"] .row-symbol { opacity:1; visibility:visible; transform:
   clip-path:inset(calc(100% - var(--star-reveal, 0%)) 0 0);
   pointer-events:none;
 }
+.gallery-list .row-accent { transform:translateY(var(--star-row-offset, 0px)); }
 .gallery-media > :last-child { top:calc(50% - var(--star-lift, 0px)); }
 body.star-light .gallery-list li:not(.row-accent) { color:#666; }
 body.star-light .clock { color:#111; }
