@@ -77,8 +77,8 @@ function update() {
 
   const galleryTop = gallery.getBoundingClientRect().top;
   rows.forEach((row, index) => {
-    const rowCenter = row.getBoundingClientRect().top + row.offsetHeight / 2 - galleryTop;
-    row.classList.toggle('row-devoured', reveal > 0 && rowCenter >= wipeTop && !items[index].accent);
+    const rowBottom = row.getBoundingClientRect().bottom - galleryTop;
+    row.classList.toggle('row-devoured', reveal > 0 && rowBottom >= wipeTop && !items[index].accent);
     const distance = index - progress;
     row.style.paddingInline = `${(Math.sin(distance * Math.PI / 5) + 1) * amplitude}px`;
     const isSelected = index === selected;
