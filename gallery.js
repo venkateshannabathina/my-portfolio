@@ -4,7 +4,6 @@ const gallery = document.querySelector('.gallery');
 const scrollArea = document.querySelector('.gallery-scroll');
 const list = document.querySelector('.gallery-list');
 const mediaLayer = document.querySelector('.gallery-media');
-const faceButton = document.querySelector('.face-button');
 const clock = document.querySelector('.clock');
 const aboutName = document.querySelector('.about-name');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -105,13 +104,5 @@ new IntersectionObserver(([entry]) => {
   visible = entry.isIntersecting;
   if (!visible) media.forEach(element => { if (element instanceof HTMLVideoElement) element.pause(); });
 }, {threshold:0}).observe(gallery);
-faceButton.addEventListener('click', () => {
-  const travel = parseFloat(gallery.style.getPropertyValue('--star-travel')) || 0;
-  scrollArea.focus({ preventScroll: true });
-  scrollArea.scrollTo({
-    top: Math.floor(scrollArea.scrollHeight - scrollArea.clientHeight - travel),
-    behavior: reducedMotion.matches ? 'instant' : 'smooth'
-  });
-});
 scrollArea.addEventListener('scroll', scheduleUpdate, {passive:true});
 scheduleUpdate();
