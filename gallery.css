@@ -124,40 +124,34 @@ body.star-light .clock { color:#111; }
 }
 .face-button[hidden] { display:none; }
 
+/* The reference switches directly between its resting and hover states. */
 .face-button::before {
   content:'';
   position:absolute;
   inset:0;
   border-radius:inherit;
   background:#111212;
-  clip-path:inset(100% 0 0);
-  transition:clip-path 240ms ease;
+  clip-path:inset(63% 0 0);
+  visibility:hidden;
   pointer-events:none;
 }
-.face-button svg {
-  position:relative;
-  transition:color 240ms ease;
-}
+.face-button svg { position:relative; }
 .face-label {
   position:absolute;
   bottom:calc(100% + 5px);
   left:50%;
-  transform:translate(-50%, 4px);
-  padding:8px 15px;
+  transform:translateX(-50%);
+  display:grid;
+  place-items:center;
+  width:92px;
+  height:33px;
   border-radius:4px;
   background:#eff0f0;
   color:#fff;
-  font:600 14px/1.2 system-ui,sans-serif;
-  opacity:0;
+  font:600 14px/1 system-ui,sans-serif;
+  visibility:hidden;
   pointer-events:none;
-  transition:opacity 180ms ease, transform 180ms ease;
 }
-.face-button:is(:hover,:focus-visible)::before { clip-path:inset(63% 0 0); }
+.face-button:is(:hover,:focus-visible)::before,
+.face-button:is(:hover,:focus-visible) .face-label { visibility:visible; }
 .face-button:is(:hover,:focus-visible) svg { color:#5e5e5e; }
-.face-button:is(:hover,:focus-visible) .face-label {
-  opacity:1;
-  transform:translate(-50%,0);
-}
-@media (prefers-reduced-motion: reduce) {
-  .face-button::before, .face-button svg, .face-label { transition:none; }
-}
