@@ -120,7 +120,4 @@ body.star-light .clock { color:#111; }
   background:#000;
   color:#fff;
 }
-.gallery:has(.about-name[data-visible="true"]) .face-button {
-  top:max(66px, calc(25cqb - clamp(80px,35.7cqi,357px) / 6 - clamp(19px,4cqi,38px)));
-}
-.gallery[data-star-revealing="true"] .face-button { visibility:hidden; }
+.face-button[hidden] { display:none; }

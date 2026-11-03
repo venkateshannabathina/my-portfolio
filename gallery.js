@@ -4,6 +4,7 @@ const gallery = document.querySelector('.gallery');
 const scrollArea = document.querySelector('.gallery-scroll');
 const list = document.querySelector('.gallery-list');
 const mediaLayer = document.querySelector('.gallery-media');
+const faceButton = document.querySelector('.face-button');
 const clock = document.querySelector('.clock');
 const aboutName = document.querySelector('.about-name');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -65,7 +66,6 @@ function update() {
   const range = scrollArea.scrollHeight - height - travel;
   const lift = Math.max(0, Math.min(travel, scrollArea.scrollTop - range));
   const reveal = travel > 0 ? lift / travel : 0;
-  gallery.dataset.starRevealing = String(lift > 1);
   gallery.style.setProperty('--star-lift', `${reducedMotion.matches ? (reveal >= .5 ? travel : 0) : lift}px`);
   gallery.style.setProperty('--star-reveal', `${reducedMotion.matches ? (reveal >= .5 ? 100 : 0) : reveal * 100}%`);
   const wipeTop = height * (1 - (reducedMotion.matches ? Number(reveal >= .5) : reveal));
@@ -73,6 +73,7 @@ function update() {
   const progress = (range > 0 ? Math.min(1, scrollArea.scrollTop / range) : 0) * Math.max(items.length - 1, 1);
   const amplitude = reducedMotion.matches ? 0 : Math.min(94, width * .12);
   const selected = Math.max(0, Math.min(items.length - 1, Math.round(progress)));
+  faceButton.hidden = items[selected].title !== 'Artifacts';
   aboutName.dataset.visible = String(selected === 0);
   aboutName.setAttribute('aria-hidden', String(selected !== 0));
 
