@@ -36,7 +36,7 @@ main { position:fixed; inset:0; height:100%; height:100dvh; width:100%; overflow
 html, body, .gallery-scroll { scrollbar-width:none; -ms-overflow-style:none; }
 html::-webkit-scrollbar, body::-webkit-scrollbar, .gallery-scroll::-webkit-scrollbar { display:none; width:0; height:0; }
 .gallery-list { margin:0; list-style:none; padding-block:50cqb; padding-inline:clamp(16px,4.4cqi,44px); }
-.gallery-list li { display:flex; justify-content:space-between; align-items:center; flex-direction:row-reverse; padding-block:clamp(4px,1.6cqi,8px); }
+.gallery-list li { display:flex; align-items:center; justify-content:flex-start; gap:1.25rem; padding-block:clamp(4px,1.6cqi,8px); }
 .gallery-list > li > span { font-family:'Instrument Serif','Instrument Serif Placeholder',serif; font-style:normal; font-weight:400; line-height:1.2em; }
 .gallery-list > li > span { font-size:clamp(14px,3.2cqi,32px); letter-spacing:0; margin:0; color:inherit; text-transform:none; white-space:nowrap; }
 .gallery-list li { color:rgba(255,255,255,.5); transition:color 180ms ease-out; }
@@ -45,17 +45,13 @@ html::-webkit-scrollbar, body::-webkit-scrollbar, .gallery-scroll::-webkit-scrol
 .gallery-list li.row-accent[data-selected="true"] { color:#f00; }
 .row-title { display:inline-block; transform:scale(1); transform-origin:left center; transition:transform 240ms cubic-bezier(.2,0,0,1); }
 li[data-selected="true"] .row-title { transform:scale(1.15); }
-.row-right { position:relative; display:inline-block; height:1.2em; }
-.row-japanese { display:block; font-family:'Noto Serif JP Labels','Hiragino Mincho ProN','Yu Mincho',serif; font-size:.78em; line-height:inherit; letter-spacing:.06em; opacity:1; visibility:visible; transform:translateY(0); transition:opacity 180ms cubic-bezier(.2,0,0,1),transform 220ms cubic-bezier(.2,0,0,1),visibility 0s; }
-.row-symbol { display:block; position:absolute; right:0; top:50%; width:1em; height:1em; object-fit:contain; opacity:0; visibility:hidden; transform:translateY(calc(-50% + 4px)) scale(.96); transform-origin:right center; transition:opacity 160ms cubic-bezier(.2,0,0,1) 60ms,transform 240ms cubic-bezier(.2,0,0,1) 60ms; }
+.row-symbol { font-size:clamp(14px,3.2cqi,32px); display:block; position:static; width:1em; height:1em; object-fit:contain; opacity:0; visibility:hidden; transform:translateY(4px) scale(.96); transform-origin:right center; transition:opacity 160ms cubic-bezier(.2,0,0,1) 60ms,transform 240ms cubic-bezier(.2,0,0,1) 60ms; }
 .row-symbol.row-eye { width:1.8em; height:1.53em; }
-li[data-selected="true"] .row-japanese { opacity:0; visibility:hidden; transform:translateY(-4px); transition:opacity 60ms ease-out,transform 180ms cubic-bezier(.2,0,0,1),visibility 0s 60ms; }
-li[data-selected="true"] .row-symbol { opacity:1; visibility:visible; transform:translateY(-50%) scale(1.25); }
+li[data-selected="true"] .row-symbol { opacity:1; visibility:visible; transform:scale(1.25); }
 @media (prefers-reduced-motion:reduce) {
   .gallery-list li, .gallery-list li .row-title, .gallery-list li .row-japanese, .gallery-list li .row-symbol { transition:none; }
-  .gallery-list li .row-japanese { transform:none; }
-  .gallery-list li .row-symbol { transform:translateY(-50%); }
-  .gallery-list li[data-selected="true"] .row-symbol { transform:translateY(-50%) scale(1.25); }
+  .gallery-list li .row-symbol { transform:none; }
+  .gallery-list li[data-selected="true"] .row-symbol { transform:scale(1.25); }
 }
 .gallery-media { position:absolute; inset:0; z-index:0; pointer-events:none; }
 .gallery-media > * { position:absolute; top:50%; left:50%; width:clamp(80px,35.7cqi,357px); aspect-ratio:3 / 2; object-fit:cover; border-radius:20px; background:#333; opacity:0; visibility:hidden; transform:translate(-50%,-50%); }
@@ -91,10 +87,8 @@ body.star-light .gallery-list li:not(.row-accent) { color:#666; }
 body.star-light .clock { color:#111; }
 
 .gallery-list li.row-devoured { color:#666; }
-.row-devoured .row-title,
-.row-devoured .row-japanese { color:transparent; }
-.row-devoured .row-title::after,
-.row-devoured .row-right::after {
+.row-devoured .row-title { color:transparent; }
+.row-devoured .row-title::after {
   content:'';
   position:absolute;
   top:50%;
@@ -103,7 +97,6 @@ body.star-light .clock { color:#111; }
   background:#666;
 }
 .row-devoured .row-title::after { left:0; }
-.row-devoured .row-right::after { right:0; }
 
 .face-button {
   position:absolute;
@@ -155,5 +148,3 @@ body.star-light .clock { color:#111; }
 .face-button:is(:hover,:focus-visible)::before,
 .face-button:is(:hover,:focus-visible) .face-label { visibility:visible; }
 .face-button:is(:hover,:focus-visible) svg { color:#5e5e5e; }
-
-.gallery-list .row-title { visibility:hidden; }

@@ -9,31 +9,22 @@ const clock = document.querySelector('.clock');
 const aboutName = document.querySelector('.about-name');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
-// The right-hand label keeps its width when the selected symbol replaces it.
 const rows = items.map(item => {
   const row = document.createElement('li');
   if (item.accent) {
     row.classList.add('row-accent');
   }
 
-  const right = document.createElement('span');
-  right.className = 'row-right';
-  right.lang = 'ja';
-  right.setAttribute('aria-label', item.subtitle);
-  const japanese = document.createElement('span');
-  japanese.className = 'row-japanese';
-  japanese.textContent = item.subtitle;
   const symbol = document.createElement('img');
   symbol.className = `row-symbol${item.accent ? ' row-eye' : ''}`;
   symbol.src = item.symbol;
   symbol.alt = '';
   symbol.setAttribute('aria-hidden', 'true');
-  right.append(japanese, symbol);
 
   const left = document.createElement('span');
   left.className = 'row-title';
   left.textContent = item.title;
-  row.append(right, left);
+  row.append(left, symbol);
   list.append(row);
   return row;
 });
