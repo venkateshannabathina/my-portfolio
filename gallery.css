@@ -113,11 +113,11 @@ body.star-light .clock { color:#111; }
   transform:translate(-50%,-50%);
   display:grid;
   place-items:center;
-  width:130px;
-  height:130px;
+  width:64px;
+  height:64px;
   box-sizing:border-box;
   padding:0;
-  border:2px solid #e1e1e1;
+  border:1px solid #e1e1e1;
   border-radius:50%;
   background:#fff;
   color:#000;
@@ -140,14 +140,14 @@ body.star-light .clock { color:#111; }
 }
 .face-label {
   position:absolute;
-  bottom:calc(100% + 10px);
+  bottom:calc(100% + 5px);
   left:50%;
   transform:translate(-50%, 4px);
-  padding:16px 30px;
-  border-radius:8px;
+  padding:8px 15px;
+  border-radius:4px;
   background:#eff0f0;
   color:#fff;
-  font:600 28px/1.2 system-ui,sans-serif;
+  font:600 14px/1.2 system-ui,sans-serif;
   opacity:0;
   pointer-events:none;
   transition:opacity 180ms ease, transform 180ms ease;
