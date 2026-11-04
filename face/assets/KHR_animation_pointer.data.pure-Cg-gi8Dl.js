@@ -1,0 +1,1 @@
+export{t as _RegisterKHRAnimationPointerData}from"./KHR_animation_pointer.data.pure-D2HwRyi3.js";

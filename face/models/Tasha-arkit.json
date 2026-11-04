@@ -1,0 +1,326 @@
+{
+  "version": 1,
+  "character": "Tasha",
+  "channels": [
+    "eyeBlinkLeft",
+    "eyeSquintLeft",
+    "eyeWideLeft",
+    "eyeLookUpLeft",
+    "eyeLookDownLeft",
+    "eyeLookInLeft",
+    "eyeLookOutLeft",
+    "browDownLeft",
+    "browOuterUpLeft",
+    "cheekSquintLeft",
+    "noseSneerLeft",
+    "mouthSmileLeft",
+    "mouthFrownLeft",
+    "mouthDimpleLeft",
+    "mouthStretchLeft",
+    "mouthPressLeft",
+    "mouthLowerDownLeft",
+    "mouthUpperUpLeft",
+    "eyeBlinkRight",
+    "eyeSquintRight",
+    "eyeWideRight",
+    "eyeLookUpRight",
+    "eyeLookDownRight",
+    "eyeLookInRight",
+    "eyeLookOutRight",
+    "browDownRight",
+    "browOuterUpRight",
+    "cheekSquintRight",
+    "noseSneerRight",
+    "mouthSmileRight",
+    "mouthFrownRight",
+    "mouthDimpleRight",
+    "mouthStretchRight",
+    "mouthPressRight",
+    "mouthLowerDownRight",
+    "mouthUpperUpRight",
+    "browInnerUp",
+    "jawOpen",
+    "jawForward",
+    "jawLeft",
+    "jawRight",
+    "mouthClose",
+    "mouthLeft",
+    "mouthRight",
+    "mouthPucker",
+    "mouthFunnel",
+    "mouthRollLower",
+    "mouthRollUpper",
+    "mouthShrugLower",
+    "mouthShrugUpper",
+    "cheekPuff",
+    "tongueOut"
+  ],
+  "correctives": [
+    "correctiveSmileJawLeft",
+    "correctiveBlinkDownLeft",
+    "correctiveSmileSquintLeft",
+    "correctiveSmileJawRight",
+    "correctiveBlinkDownRight",
+    "correctiveSmileSquintRight",
+    "correctivePuckerJaw",
+    "correctiveMouthCloseJaw",
+    "correctiveSmileUpperUpLeft",
+    "correctiveSmileUpperUpRight",
+    "correctiveBilateralSmile"
+  ],
+  "anatomicalSides": true,
+  "stats": {
+    "eyeBlinkLeft": {
+      "vertices": 6660,
+      "maxDisplacementMeters": 0.013507431347479252
+    },
+    "eyeSquintLeft": {
+      "vertices": 7653,
+      "maxDisplacementMeters": 0.0032173120916344183
+    },
+    "eyeWideLeft": {
+      "vertices": 6660,
+      "maxDisplacementMeters": 0.0034313572013995692
+    },
+    "eyeLookUpLeft": {
+      "vertices": 7462,
+      "maxDisplacementMeters": 0.004943331468957587
+    },
+    "eyeLookDownLeft": {
+      "vertices": 7462,
+      "maxDisplacementMeters": 0.00555493632725256
+    },
+    "eyeLookInLeft": {
+      "vertices": 802,
+      "maxDisplacementMeters": 0.005536829507483092
+    },
+    "eyeLookOutLeft": {
+      "vertices": 802,
+      "maxDisplacementMeters": 0.006180783424025521
+    },
+    "browDownLeft": {
+      "vertices": 5633,
+      "maxDisplacementMeters": 0.0045609364324677056
+    },
+    "browOuterUpLeft": {
+      "vertices": 4419,
+      "maxDisplacementMeters": 0.00487813712671349
+    },
+    "cheekSquintLeft": {
+      "vertices": 3419,
+      "maxDisplacementMeters": 0.004319938846701263
+    },
+    "noseSneerLeft": {
+      "vertices": 9560,
+      "maxDisplacementMeters": 0.004385519731894789
+    },
+    "mouthSmileLeft": {
+      "vertices": 7503,
+      "maxDisplacementMeters": 0.008521765830922587
+    },
+    "mouthFrownLeft": {
+      "vertices": 7349,
+      "maxDisplacementMeters": 0.005036571272194283
+    },
+    "mouthDimpleLeft": {
+      "vertices": 7274,
+      "maxDisplacementMeters": 0.003051812547106635
+    },
+    "mouthStretchLeft": {
+      "vertices": 7414,
+      "maxDisplacementMeters": 0.006071162215815117
+    },
+    "mouthPressLeft": {
+      "vertices": 7394,
+      "maxDisplacementMeters": 0.004382223104563472
+    },
+    "mouthLowerDownLeft": {
+      "vertices": 5874,
+      "maxDisplacementMeters": 0.004901844289109252
+    },
+    "mouthUpperUpLeft": {
+      "vertices": 6573,
+      "maxDisplacementMeters": 0.005535731984149461
+    },
+    "eyeBlinkRight": {
+      "vertices": 6660,
+      "maxDisplacementMeters": 0.013726013237302931
+    },
+    "eyeSquintRight": {
+      "vertices": 7653,
+      "maxDisplacementMeters": 0.003269375741089915
+    },
+    "eyeWideRight": {
+      "vertices": 6660,
+      "maxDisplacementMeters": 0.003486884602921081
+    },
+    "eyeLookUpRight": {
+      "vertices": 7462,
+      "maxDisplacementMeters": 0.004608897361036049
+    },
+    "eyeLookDownRight": {
+      "vertices": 7462,
+      "maxDisplacementMeters": 0.005179124956554028
+    },
+    "eyeLookInRight": {
+      "vertices": 802,
+      "maxDisplacementMeters": 0.005569520202719234
+    },
+    "eyeLookOutRight": {
+      "vertices": 802,
+      "maxDisplacementMeters": 0.0062172761690093324
+    },
+    "browDownRight": {
+      "vertices": 5513,
+      "maxDisplacementMeters": 0.0045609364324677056
+    },
+    "browOuterUpRight": {
+      "vertices": 4368,
+      "maxDisplacementMeters": 0.00487813712671349
+    },
+    "cheekSquintRight": {
+      "vertices": 3412,
+      "maxDisplacementMeters": 0.004319938846701263
+    },
+    "noseSneerRight": {
+      "vertices": 9574,
+      "maxDisplacementMeters": 0.004385948462328137
+    },
+    "mouthSmileRight": {
+      "vertices": 7507,
+      "maxDisplacementMeters": 0.008526697930293706
+    },
+    "mouthFrownRight": {
+      "vertices": 7360,
+      "maxDisplacementMeters": 0.0050302998853908616
+    },
+    "mouthDimpleRight": {
+      "vertices": 7281,
+      "maxDisplacementMeters": 0.003045688169717726
+    },
+    "mouthStretchRight": {
+      "vertices": 7424,
+      "maxDisplacementMeters": 0.006061917565344856
+    },
+    "mouthPressRight": {
+      "vertices": 7394,
+      "maxDisplacementMeters": 0.00438552891995559
+    },
+    "mouthLowerDownRight": {
+      "vertices": 5879,
+      "maxDisplacementMeters": 0.00492667144729959
+    },
+    "mouthUpperUpRight": {
+      "vertices": 6593,
+      "maxDisplacementMeters": 0.005557399065432821
+    },
+    "browInnerUp": {
+      "vertices": 10175,
+      "maxDisplacementMeters": 0.005986997818756458
+    },
+    "jawOpen": {
+      "vertices": 9320,
+      "maxDisplacementMeters": 0.03707194975773247
+    },
+    "jawForward": {
+      "vertices": 9371,
+      "maxDisplacementMeters": 0.008
+    },
+    "jawLeft": {
+      "vertices": 9320,
+      "maxDisplacementMeters": 0.009
+    },
+    "jawRight": {
+      "vertices": 9320,
+      "maxDisplacementMeters": 0.009314304208649453
+    },
+    "mouthClose": {
+      "vertices": 7565,
+      "maxDisplacementMeters": 0.001194613441369958
+    },
+    "mouthLeft": {
+      "vertices": 7816,
+      "maxDisplacementMeters": 0.00988886336621825
+    },
+    "mouthRight": {
+      "vertices": 7816,
+      "maxDisplacementMeters": 0.009829747706359325
+    },
+    "mouthPucker": {
+      "vertices": 7868,
+      "maxDisplacementMeters": 0.009214968050789652
+    },
+    "mouthFunnel": {
+      "vertices": 7855,
+      "maxDisplacementMeters": 0.008467671440717597
+    },
+    "mouthRollLower": {
+      "vertices": 4590,
+      "maxDisplacementMeters": 0.004387466931152911
+    },
+    "mouthRollUpper": {
+      "vertices": 4768,
+      "maxDisplacementMeters": 0.00447324323713043
+    },
+    "mouthShrugLower": {
+      "vertices": 7248,
+      "maxDisplacementMeters": 0.005947047651028379
+    },
+    "mouthShrugUpper": {
+      "vertices": 5747,
+      "maxDisplacementMeters": 0.0022244849892044368
+    },
+    "cheekPuff": {
+      "vertices": 21198,
+      "maxDisplacementMeters": 0.006581271125068861
+    },
+    "tongueOut": {
+      "vertices": 411,
+      "maxDisplacementMeters": 0.030075798105277697
+    },
+    "correctiveSmileJawLeft": {
+      "vertices": 7565,
+      "maxDisplacementMeters": 0.002898143163259221
+    },
+    "correctiveBlinkDownLeft": {
+      "vertices": 6660,
+      "maxDisplacementMeters": 0.0009660160762534846
+    },
+    "correctiveSmileSquintLeft": {
+      "vertices": 11277,
+      "maxDisplacementMeters": 0.0015474303145576285
+    },
+    "correctiveSmileJawRight": {
+      "vertices": 7576,
+      "maxDisplacementMeters": 0.002898019169523072
+    },
+    "correctiveBlinkDownRight": {
+      "vertices": 6660,
+      "maxDisplacementMeters": 0.0009816484803423166
+    },
+    "correctiveSmileSquintRight": {
+      "vertices": 11317,
+      "maxDisplacementMeters": 0.0015452534645165712
+    },
+    "correctivePuckerJaw": {
+      "vertices": 5799,
+      "maxDisplacementMeters": 0.0030689360549430895
+    },
+    "correctiveMouthCloseJaw": {
+      "vertices": 5725,
+      "maxDisplacementMeters": 0.03632960388000441
+    },
+    "correctiveSmileUpperUpLeft": {
+      "vertices": 6531,
+      "maxDisplacementMeters": 0.0009744504266888989
+    },
+    "correctiveSmileUpperUpRight": {
+      "vertices": 6540,
+      "maxDisplacementMeters": 0.0009787487132748654
+    },
+    "correctiveBilateralSmile": {
+      "vertices": 3649,
+      "maxDisplacementMeters": 4.353085660382157e-06
+    }
+  }
+}
