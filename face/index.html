@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000" />
     <title>Tasha · Portrait</title>
-    <script type="module" crossorigin src="/face/assets/index-Dmr6JjAA.js"></script>
+    <script type="module" crossorigin src="/face/assets/index-CbwnVIj2.js"></script>
     <link rel="modulepreload" crossorigin href="/face/assets/math.scalar.functions-B_eaYLVj.js">
     <link rel="modulepreload" crossorigin href="/face/assets/domManagement-BqltO0ki.js">
     <link rel="modulepreload" crossorigin href="/face/assets/tools.functions-DKZ2iq4y.js">
@@ -41,6 +41,7 @@
     <link rel="modulepreload" crossorigin href="/face/assets/constants-_wyaM_ID.js">
     <link rel="modulepreload" crossorigin href="/face/assets/flowGraphInteger.pure-BKfG1Hxi.js">
     <link rel="modulepreload" crossorigin href="/face/assets/glTFLoaderAnimation.pure-DV8GNstb.js">
+    <link rel="modulepreload" crossorigin href="/face/assets/arkit-schema-DpxL7rS2.js">
     <link rel="modulepreload" crossorigin href="/face/assets/easing-FZoVzv60.js">
     <link rel="modulepreload" crossorigin href="/face/assets/effectRenderer.pure-aWtdULIZ.js">
     <link rel="modulepreload" crossorigin href="/face/assets/sphericalPolynomial.pure-B71oXU_C.js">
@@ -66,7 +67,7 @@
     <link rel="modulepreload" crossorigin href="/face/assets/flowGraphRichTypes-B5OkEhbP.js">
     <link rel="modulepreload" crossorigin href="/face/assets/interactivityReferences-D91mjOy-.js">
     <link rel="modulepreload" crossorigin href="/face/assets/flowGraphDelayRegistry-Dd3murvx.js">
-    <link rel="stylesheet" crossorigin href="/face/assets/index-D6tsAmmh.css">
+    <link rel="stylesheet" crossorigin href="/face/assets/index-CO6S0zWh.css">
   </head>
   <body>
     <canvas id="portrait" aria-label="Interactive textured portrait of Tasha. Drag to orbit, scroll to zoom, double-click to reset. Press H for controls." tabindex="0"></canvas>
@@ -84,6 +85,12 @@
       <label class="character-picker">Face<select data-character aria-label="Face"><option value="tasha">Tasha</option><option value="ada">Ada Wong</option><option value="thanos">Thanos</option></select></label>
       <p data-character-message role="status" hidden></p>
       <p data-status role="status">Loading facial rig…</p>
+      <div class="dev-actions">
+        <button data-camera type="button">Start Camera</button>
+        <button data-camera-recenter type="button" hidden>Recenter head</button>
+      </div>
+      <label data-camera-choice hidden>Camera<select data-camera-device></select></label>
+      <p data-camera-status role="status" hidden></p>
       <div class="dev-actions"><button data-neutral>Reset face</button><button data-demo>Play expressions</button></div>
       <div class="preset-grid" data-presets></div>
       <div class="face-options">
