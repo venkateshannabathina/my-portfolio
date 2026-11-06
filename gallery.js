@@ -1,11 +1,10 @@
 import Lenis from './assets/vendor/lenis-1.3.25.mjs';
-import { items } from './gallery-data.js?v=showcase-motion';
+import { items } from './gallery-data.js?v=section-intros';
 
 const list = document.querySelector('.section-list');
-const preview = document.querySelector('.section-preview');
-const previewButton = preview.querySelector('.preview-button');
-const captionNumber = preview.querySelector('.section-number');
-const captionName = preview.querySelector('.section-name');
+const intros = document.querySelectorAll('.section-intro');
+const captionNumber = document.querySelector('.section-number');
+const captionName = document.querySelector('.section-name');
 const dialog = document.querySelector('.section-dialog');
 const dialogTitle = dialog.querySelector('h2');
 const dialogMedia = dialog.querySelector('.section-media');
@@ -26,16 +25,6 @@ function openSection(item) {
   dialog.showModal();
   smoothScroll?.stop();
 }
-
-const firstSymbol = previewButton.querySelector('img');
-const symbols = items.map((item, index) => {
-  if (index === 0) return firstSymbol;
-  const image = new Image(286, 286);
-  image.alt = '';
-  image.src = item.symbol;
-  image.decode().catch(() => {});
-  return image;
-});
 
 const rows = items.map(item => {
   const row = document.createElement('li');
@@ -95,11 +84,11 @@ function select(index) {
   selected = index;
 
   const item = items[index];
-  if (!isFirstSelection || index !== 0) previewButton.replaceChildren(symbols[index]);
-  preview.dataset.colorSymbol = String(Boolean(item.colorSymbol));
+  for (const intro of intros) {
+    intro.classList.toggle('is-active', intro.dataset.intro === item.title);
+  }
   captionNumber.textContent = `${String(index + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
   captionName.textContent = item.title;
-  previewButton.setAttribute('aria-label', `View ${item.title}`);
 }
 
 function updateSelection() {
@@ -138,7 +127,6 @@ function updateScrollMotion() {
 updateScrollMotion();
 reducedMotion.addEventListener('change', updateScrollMotion);
 
-previewButton.addEventListener('click', () => openSection(items[selected]));
 dialog.addEventListener('close', () => {
   if (dialog.open) return;
   dialogMedia.removeAttribute('src');

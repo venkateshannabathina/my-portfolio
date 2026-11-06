@@ -7,26 +7,23 @@
   <title>Venkatesh Annabathina — Portfolio</title>
   <link rel="icon" href="assets/kERMSwCuDVncwKoOheLRutVYO0o.png">
   <link rel="preload" href="assets/fonts/bdo-grotesk.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="gallery.css?v=showcase-motion">
-  <script type="module" src="gallery.js?v=showcase-motion"></script>
+  <link rel="stylesheet" href="gallery.css?v=section-intros">
+  <script type="module" src="gallery.js?v=section-intros"></script>
 </head>
 <body>
   <main class="portfolio">
     <header class="portfolio-header">
       <p class="scroll-label">Scroll down</p>
-      <h1>A portfolio of work, artifacts, and projects by Venkatesh Annabathina.</h1>
+      <div class="section-intros">
+        <h1 class="section-intro section-intro-name is-active" data-intro="About">Venkatesh Annabathina</h1>
+        <p class="section-intro" data-intro="Work">I work across fields, borrowing ideas from one to solve problems in another.</p>
+        <p class="section-intro" data-intro="Artifacts">A few things I’ve made along the way. See what catches your eye.</p>
+      </div>
     </header>
 
     <section class="showcase" aria-label="Portfolio sections">
       <ul class="section-list"></ul>
-      <figure class="section-preview">
-        <button class="preview-button" type="button" aria-label="View About" aria-haspopup="dialog">
-          <img src="assets/icons/user-round.svg" alt="" width="286" height="286" fetchpriority="high">
-        </button>
-        <figcaption class="preview-caption">
-          <span class="section-number">01 / 06</span>   <span class="section-name">About</span>
-        </figcaption>
-      </figure>
+      <p class="section-caption"><span class="section-number">01 / 06</span>   <span class="section-name">About</span></p>
     </section>
   </main>
 

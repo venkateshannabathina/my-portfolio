@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'BDO Grotesk';
   src: url('assets/fonts/bdo-grotesk.woff2') format('woff2');
-  font-weight: 400;
+  font-weight: 400 900;
   font-display: swap;
 }
 
@@ -26,7 +26,7 @@ button { font: inherit; color: inherit; }
 [hidden] { display: none; }
 
 .portfolio {
-  --preview-size: 286px;
+  --caption-column: 286px;
   --section-type: 82px;
   padding: 245px 40px max(468px, calc(50svh - 39px));
 }
@@ -40,7 +40,7 @@ button { font: inherit; color: inherit; }
 }
 
 .scroll-label,
-.preview-caption {
+.section-caption {
   font-family: 'Anek Latin', Arial, sans-serif;
   font-weight: 500;
   text-transform: uppercase;
@@ -54,10 +54,17 @@ button { font: inherit; color: inherit; }
   white-space: nowrap;
 }
 
-.portfolio-header h1 {
+.section-intros {
+  display: grid;
   flex: 1;
+  min-width: 0;
   max-width: 838px;
+}
+
+.section-intro {
+  grid-area: 1 / 1;
   margin: 0;
+  visibility: hidden;
   color: #000;
   font-size: 32px;
   font-weight: 400;
@@ -65,9 +72,19 @@ button { font: inherit; color: inherit; }
   letter-spacing: -.03em;
 }
 
+.section-intro.is-active { visibility: visible; }
+.section-intro-name { font-weight: 900; }
+
+.portfolio-header:has(.section-intro.is-active) {
+  position: sticky;
+  top: 16px;
+  z-index: 1;
+  background: #fff;
+}
+
 .showcase {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--preview-size);
+  grid-template-columns: minmax(0, 1fr) var(--caption-column);
   align-items: start;
 }
 
@@ -79,16 +96,12 @@ button { font: inherit; color: inherit; }
   list-style: none;
 }
 
-.section-list button,
-.preview-button {
+.section-list button {
   display: block;
   padding: 0;
   border: 0;
   background: transparent;
   cursor: pointer;
-}
-
-.section-list button {
   max-width: 100%;
   overflow-wrap: break-word;
   font-size: var(--section-type);
@@ -101,28 +114,11 @@ button { font: inherit; color: inherit; }
 
 .section-list button[aria-current='true'] { color: #111; }
 
-.section-preview {
+.section-caption {
   position: sticky;
   top: 40px;
   margin: 0;
-  padding-bottom: 4px;
-}
-
-.preview-button { width: 100%; }
-
-.preview-button img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: contain;
-  filter: brightness(0);
-}
-
-.section-preview[data-color-symbol='true'] img { filter: none; }
-
-.preview-caption {
-  margin-top: 18px;
+  padding: calc(var(--caption-column) + 18px) 0 4px;
   color: #000;
   white-space: pre-wrap;
   overflow-wrap: break-word;
@@ -185,12 +181,12 @@ button { font: inherit; color: inherit; }
 @media (max-width: 1199px) {
   .portfolio { --section-type: 62px; }
   .portfolio-header { gap: 40px; }
-  .portfolio-header h1 { font-size: 28px; }
+  .section-intro { font-size: 28px; }
 }
 
 @media (max-width: 809px) {
   .portfolio {
-    --preview-size: 122px;
+    --caption-column: 122px;
     --section-type: 38px;
     padding: 223px 20px max(473px, calc(50svh - 39px));
   }
@@ -200,6 +196,6 @@ button { font: inherit; color: inherit; }
     gap: 12px;
   }
 
-  .portfolio-header h1 { font-size: 18px; line-height: 1.3; }
+  .section-intro { font-size: 18px; line-height: 1.3; }
   .scroll-label { font-size: 12px; line-height: 1.2; letter-spacing: .08em; }
 }
