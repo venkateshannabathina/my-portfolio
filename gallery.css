@@ -228,8 +228,8 @@ button { font: inherit; color: inherit; }
   grid-template-rows: auto auto;
   align-self: center;
   justify-self: end;
-  width: clamp(350px, min(57vw, calc(100vw - 430px)), 850px);
-  margin-inline-end: clamp(12px, 2vw, 32px);
+  width: clamp(350px, 46vw, 680px);
+  margin-inline-end: clamp(18px, 4vw, 60px);
 }
 
 .events-portal {
@@ -459,11 +459,9 @@ button { font: inherit; color: inherit; }
   .section-tags { font-size: 20px; gap: 2px; margin-bottom: 12px; }
 
   .section-details:has(.events-portal:not([hidden])) {
-    width: clamp(var(--caption-column), calc(100vw - 216px), 480px);
+    width: clamp(var(--caption-column), calc(100vw - 236px), 440px);
     margin-inline-end: 0;
   }
-
-  .story-card { aspect-ratio: 1.65; }
 
   .section-intros { width: 100%; }
   .section-intro { font-size: 18px; line-height: 1.3; }
