@@ -116,6 +116,7 @@ button { font: inherit; color: inherit; }
   list-style: none;
 }
 
+.about-tags[hidden] { display: none; }
 .about-tag-secondary { font-size: .88em; }
 
 .portfolio-header:has(.section-intro.is-active) {

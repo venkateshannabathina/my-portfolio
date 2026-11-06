@@ -8,6 +8,7 @@ const aboutTags = document.querySelector('.about-tags');
 const intros = document.querySelectorAll('.section-intro');
 const captionNumber = document.querySelector('.section-number');
 const captionName = document.querySelector('.section-name');
+const caption = captionName.closest('.section-caption');
 const dialog = document.querySelector('.section-dialog');
 const dialogTitle = dialog.querySelector('h2');
 const dialogMedia = dialog.querySelector('.section-media');
@@ -78,6 +79,7 @@ function highlight(button, current, animate) {
 
 let selected = -1;
 let frame = 0;
+let sectionAnimations = [];
 
 function select(index) {
   if (index === selected) return;
@@ -86,14 +88,29 @@ function select(index) {
   highlight(rows[index], true, !isFirstSelection);
   selected = index;
 
+  sectionAnimations.forEach(animation => animation.cancel());
+  sectionAnimations = [];
+
   const item = items[index];
   aboutPortal.hidden = item.title !== 'About';
   aboutTags.hidden = aboutPortal.hidden;
+  let activeIntro;
   for (const intro of intros) {
-    intro.classList.toggle('is-active', intro.dataset.intro === item.title);
+    const isActive = intro.dataset.intro === item.title;
+    intro.classList.toggle('is-active', isActive);
+    if (isActive) activeIntro = intro;
   }
   captionNumber.textContent = `${String(index + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
   captionName.textContent = item.title;
+
+  if (isFirstSelection || reducedMotion.matches) return;
+  const parts = [caption];
+  if (activeIntro) parts.push(activeIntro);
+  if (!aboutPortal.hidden) parts.push(aboutPortal, aboutTags);
+  sectionAnimations = parts.map(part => part.animate(
+    [{ opacity: 0, translate: '0 8px' }, { opacity: 1, translate: '0 0' }],
+    { duration: 300, easing: 'cubic-bezier(.2, .75, .25, 1)' }
+  ));
 }
 
 function updateSelection() {
@@ -116,6 +133,8 @@ function updateScrollMotion() {
   smoothScroll?.destroy();
   if (reducedMotion.matches) {
     rows.forEach(row => labelAnimations.get(row)?.cancel());
+    sectionAnimations.forEach(animation => animation.cancel());
+    sectionAnimations = [];
     smoothScroll = undefined;
     return;
   }
