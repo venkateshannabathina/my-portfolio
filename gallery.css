@@ -27,6 +27,7 @@ button { font: inherit; color: inherit; }
 
 .portfolio {
   --caption-column: 286px;
+  --header-gap: 80px;
   --section-type: 82px;
   /* Keep the last target reachable when the activation line is above the viewport midpoint. */
   --scroll-tail: calc(100svh - 360px);
@@ -38,7 +39,7 @@ button { font: inherit; color: inherit; }
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
-  margin-bottom: 80px;
+  margin-bottom: var(--header-gap);
 }
 
 .scroll-label,
@@ -102,13 +103,14 @@ button { font: inherit; color: inherit; }
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 5px 14px;
-  margin: 12px 0 0;
+  gap: 8px 16px;
+  max-inline-size: 480px;
+  margin: 28px 0 0 auto;
   padding: 0;
-  color: #555;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.4;
+  color: #262626;
+  font-size: clamp(20px, 3.2vw, 28px);
+  font-weight: 600;
+  line-height: 1.18;
   letter-spacing: 0;
   list-style: none;
 }
@@ -252,6 +254,17 @@ button { font: inherit; color: inherit; }
 .dialog-project-link { display: inline-block; margin-top: 16px; }
 .dialog-project-link[hidden] { display: none; }
 
+@media (min-width: 960px) {
+  .about-tags {
+    position: absolute;
+    inset-block-start: calc(100% + var(--header-gap) + var(--caption-column) * .37);
+    inset-inline-end: 0;
+    inline-size: var(--caption-column);
+    margin: 0;
+    transform: translateY(-50%);
+  }
+}
+
 @media (max-width: 1199px) {
   .portfolio { --section-type: 62px; }
   .portfolio-header { gap: 40px; }
@@ -282,7 +295,6 @@ button { font: inherit; color: inherit; }
     font-size: clamp(36px, 8vw, 56px);
     line-height: 1;
   }
-  .about-tags { font-size: 12px; gap: 4px 10px; }
   .scroll-label { font-size: 12px; line-height: 1.2; letter-spacing: .08em; }
 }
 
