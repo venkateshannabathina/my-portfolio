@@ -103,17 +103,20 @@ button { font: inherit; color: inherit; }
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 8px 16px;
-  max-inline-size: 480px;
-  margin: 28px 0 0 auto;
+  align-items: baseline;
+  gap: 6px 14px;
+  max-inline-size: 520px;
+  margin: 24px 0 0 auto;
   padding: 0;
-  color: #262626;
-  font-size: clamp(20px, 3.2vw, 28px);
-  font-weight: 600;
-  line-height: 1.18;
-  letter-spacing: 0;
+  color: #666;
+  font-size: clamp(27px, 5vw, 42px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.035em;
   list-style: none;
 }
+
+.about-tag-secondary { font-size: .88em; }
 
 .portfolio-header:has(.section-intro.is-active) {
   position: sticky;
@@ -257,9 +260,12 @@ button { font: inherit; color: inherit; }
 @media (min-width: 960px) {
   .about-tags {
     position: absolute;
-    inset-block-start: calc(100% + var(--header-gap) + var(--caption-column) * .37);
+    inset-block-start: calc(100% + var(--header-gap) + (var(--caption-column) + 18px) / 2);
     inset-inline-end: 0;
-    inline-size: var(--caption-column);
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    gap: 4px;
     margin: 0;
     transform: translateY(-50%);
   }
