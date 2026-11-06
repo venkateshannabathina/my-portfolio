@@ -82,14 +82,35 @@ button { font: inherit; color: inherit; }
   margin-inline-start: -8px;
 }
 
-.section-intro-name {
+.section-intro-about {
   justify-self: end;
+  min-width: 0;
+  max-width: 100%;
+  text-align: right;
+}
+
+.section-intro-name {
+  margin: 0;
   font-size: 72px;
   font-weight: 900;
   line-height: 1;
-  text-align: right;
   text-wrap: balance;
   overflow-wrap: break-word;
+}
+
+.about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 5px 14px;
+  margin: 12px 0 0;
+  padding: 0;
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  list-style: none;
 }
 
 .portfolio-header:has(.section-intro.is-active) {
@@ -257,9 +278,11 @@ button { font: inherit; color: inherit; }
   .section-intro-name {
     width: min-content;
     max-width: 100%;
+    margin-inline-start: auto;
     font-size: clamp(36px, 8vw, 56px);
     line-height: 1;
   }
+  .about-tags { font-size: 12px; gap: 4px 10px; }
   .scroll-label { font-size: 12px; line-height: 1.2; letter-spacing: .08em; }
 }
 
