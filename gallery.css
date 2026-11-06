@@ -152,6 +152,7 @@ button { font: inherit; color: inherit; }
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--caption-column);
   align-items: start;
+  overflow-anchor: none;
 }
 
 .about-portal {
@@ -221,6 +222,164 @@ button { font: inherit; color: inherit; }
   display: grid;
   grid-template-rows: minmax(calc(var(--caption-column) + 18px), auto) auto;
   min-width: 0;
+}
+
+.section-details:has(.event-stories:not([hidden])) {
+  grid-template-rows: auto auto;
+  justify-self: end;
+  gap: 14px;
+  width: clamp(310px, 36vw, 440px);
+}
+
+.event-stories {
+  --story-arrow-size: clamp(40px, 4.2vw, 54px);
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--story-arrow-size) minmax(0, 1fr) var(--story-arrow-size);
+  align-items: center;
+  gap: clamp(8px, 1.25vw, 16px);
+}
+
+.event-stories[hidden] { display: none; }
+
+.story-card {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: clamp(12px, 1.6vw, 22px);
+  background: #171717;
+  color: #fff;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+}
+
+.story-photos,
+.story-photo,
+.story-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.story-photo {
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+
+.story-photo.is-current { opacity: 1; }
+.story-photo img { object-fit: cover; }
+
+.story-photo-wide::before {
+  position: absolute;
+  inset: -18px;
+  background: var(--story-backdrop) center / cover no-repeat;
+  filter: blur(18px) brightness(.68);
+  content: '';
+}
+
+.story-photo-wide img {
+  inset: 50% 0 auto;
+  height: auto;
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
+}
+
+.story-overlay {
+  position: relative;
+  padding: clamp(8px, 1.15vw, 15px);
+  background: linear-gradient(180deg, #000b 0%, #0006 66%, transparent);
+}
+
+.story-progress {
+  display: flex;
+  gap: 4px;
+}
+
+.story-progress span {
+  flex: 1;
+  height: clamp(3px, .4vw, 5px);
+  overflow: hidden;
+  border-radius: 10px;
+  background: #fff6;
+}
+
+.story-progress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.story-top {
+  display: flex;
+  align-items: start;
+  gap: 4px;
+  margin-top: clamp(9px, 1.1vw, 15px);
+}
+
+.story-label { flex: 1; min-width: 0; }
+
+.story-title {
+  margin: 0;
+  font-size: clamp(12px, 1.48vw, 19px);
+  font-weight: 550;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.story-summary {
+  margin: 4px 0 0;
+  color: #fffe;
+  font-size: clamp(10px, .95vw, 13px);
+  line-height: 1.25;
+}
+
+.story-arrow,
+.story-playback {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+}
+
+.story-arrow {
+  width: var(--story-arrow-size);
+  height: var(--story-arrow-size);
+  background: #000;
+}
+
+.story-arrow:hover { background: #282828; }
+.story-arrow svg { width: 36%; }
+
+.story-playback {
+  flex: 0 0 auto;
+  width: clamp(26px, 2.7vw, 36px);
+  aspect-ratio: 1;
+  margin: -3px -4px 0 0;
+  background: transparent;
+}
+
+.story-playback:hover { background: #0005; }
+.story-playback svg { width: 55%; }
+.story-playback:not([data-paused]) .story-play-icon,
+.story-playback[data-paused] .story-pause-icon { display: none; }
+
+.story-arrow:focus-visible,
+.story-playback:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-photo { transition: none; }
 }
 
 @media (width > 435px) {
@@ -318,6 +477,26 @@ button { font: inherit; color: inherit; }
   }
 
   .section-tags { font-size: 20px; gap: 2px; margin-bottom: 12px; }
+
+  .section-details:has(.event-stories:not([hidden])) {
+    width: clamp(var(--caption-column), calc(100vw - 258px), 280px);
+  }
+
+  .event-stories {
+    --story-arrow-size: clamp(30px, 5.8vw, 38px);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .story-arrow {
+    position: absolute;
+    z-index: 1;
+    top: 67%;
+    transform: translateY(-50%);
+    background: #000b;
+  }
+
+  .story-previous { left: 5px; }
+  .story-next { right: 5px; }
 
   .section-intros { width: 100%; }
   .section-intro { font-size: 18px; line-height: 1.3; }

@@ -1,6 +1,7 @@
 import { setupAboutPortal } from './about-portal.js?v=circle-portal';
 import Lenis from './assets/vendor/lenis-1.3.25.mjs';
 import { items } from './gallery-data.js?v=section-intros';
+import { setupEventStories } from './event-stories.js?v=event-stories';
 
 const list = document.querySelector('.section-list');
 const aboutPortal = document.querySelector('.about-portal');
@@ -15,6 +16,8 @@ const dialogTitle = dialog.querySelector('h2');
 const dialogMedia = dialog.querySelector('.section-media');
 const dialogProjectLink = dialog.querySelector('.dialog-project-link');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const eventStories = document.querySelector('.event-stories');
+const showEventStories = setupEventStories(eventStories, reducedMotion);
 const labelAnimations = new WeakMap();
 let smoothScroll;
 
@@ -31,13 +34,17 @@ function openSection(item) {
   smoothScroll?.stop();
 }
 
-const rows = items.map(item => {
+const rows = items.map((item, index) => {
   const row = document.createElement('li');
   const button = document.createElement('button');
   button.type = 'button';
   button.textContent = item.title;
-  button.setAttribute('aria-haspopup', 'dialog');
-  button.addEventListener('click', () => openSection(item));
+  if (item.title === 'Events') {
+    button.addEventListener('click', () => scrollToSection(index));
+  } else {
+    button.setAttribute('aria-haspopup', 'dialog');
+    button.addEventListener('click', () => openSection(item));
+  }
   row.append(button);
   list.append(row);
   return button;
@@ -96,6 +103,7 @@ function select(index) {
   aboutPortal.hidden = item.title !== 'About';
   aboutTags.hidden = aboutPortal.hidden;
   workProjects.hidden = item.title !== 'Work';
+  showEventStories(item.title === 'Events');
   let activeIntro;
   for (const intro of intros) {
     const isActive = intro.dataset.intro === item.title;
@@ -110,17 +118,30 @@ function select(index) {
   if (activeIntro) parts.push(activeIntro);
   if (!aboutPortal.hidden) parts.push(aboutPortal, aboutTags);
   if (!workProjects.hidden) parts.push(workProjects);
+  if (!eventStories.hidden) parts.push(eventStories);
   sectionAnimations = parts.map(part => part.animate(
     [{ opacity: 0, translate: '0 8px' }, { opacity: 1, translate: '0 0' }],
     { duration: 300, easing: 'cubic-bezier(.2, .75, .25, 1)' }
   ));
 }
 
+function sectionSpacing(height) {
+  return (height - 40) / (rows.length - 1);
+}
+
+function scrollToSection(index) {
+  const bounds = list.getBoundingClientRect();
+  const distance = (index + .5) * sectionSpacing(bounds.height);
+  const top = distance + Math.max(0, window.scrollY + bounds.top - window.innerHeight / 2 - 1);
+  if (smoothScroll) smoothScroll.scrollTo(top, { immediate: true });
+  else window.scrollTo(0, top);
+}
+
 function updateSelection() {
   frame = 0;
   const bounds = list.getBoundingClientRect();
   // The demo evenly distributes 40 px scroll targets across the showcase.
-  const targetSpacing = (bounds.height - 40) / (rows.length - 1);
+  const targetSpacing = sectionSpacing(bounds.height);
   // Keep the activation line at or above the first target on the initial screen.
   const distance = Math.min(window.scrollY, window.innerHeight / 2 + 1 - bounds.top);
   const index = Math.max(0, Math.min(rows.length - 1, Math.floor(distance / targetSpacing)));
