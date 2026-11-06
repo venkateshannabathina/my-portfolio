@@ -1,16 +1,18 @@
-import { items } from './gallery-data.js?v=scroll-sync';
+import Lenis from './assets/vendor/lenis-1.3.25.mjs';
+import { items } from './gallery-data.js?v=showcase-motion';
 
 const list = document.querySelector('.section-list');
 const preview = document.querySelector('.section-preview');
 const previewButton = preview.querySelector('.preview-button');
-const symbol = preview.querySelector('img');
 const captionNumber = preview.querySelector('.section-number');
 const captionName = preview.querySelector('.section-name');
-const projectLink = preview.querySelector('.project-link');
 const dialog = document.querySelector('.section-dialog');
 const dialogTitle = dialog.querySelector('h2');
 const dialogMedia = dialog.querySelector('.section-media');
 const dialogProjectLink = dialog.querySelector('.dialog-project-link');
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const labelAnimations = new WeakMap();
+let smoothScroll;
 
 function updateProjectLink(link, project) {
   link.hidden = !project;
@@ -22,7 +24,18 @@ function openSection(item) {
   dialogMedia.src = item.src;
   updateProjectLink(dialogProjectLink, item.project);
   dialog.showModal();
+  smoothScroll?.stop();
 }
+
+const firstSymbol = previewButton.querySelector('img');
+const symbols = items.map((item, index) => {
+  if (index === 0) return firstSymbol;
+  const image = new Image(286, 286);
+  image.alt = '';
+  image.src = item.symbol;
+  image.decode().catch(() => {});
+  return image;
+});
 
 const rows = items.map(item => {
   const row = document.createElement('li');
@@ -30,45 +43,72 @@ const rows = items.map(item => {
   button.type = 'button';
   button.textContent = item.title;
   button.setAttribute('aria-haspopup', 'dialog');
-  if (item.accent) row.style.setProperty('--active-color', item.accent);
   button.addEventListener('click', () => openSection(item));
   row.append(button);
   list.append(row);
   return button;
 });
 
+// Sample the demo's 350 ms spring with bounce 0.25.
+const springDuration = 350;
+const dampingRatio = 0.75;
+const oscillationRatio = Math.sqrt(1 - dampingRatio ** 2);
+const decay = Math.log(dampingRatio / (0.001 * oscillationRatio));
+const frequency = decay * oscillationRatio / dampingRatio;
+const spring = Array.from({ length: 36 }, (_, step) => {
+  const time = step / 35;
+  if (step === 35) return 1;
+  return 1 - Math.exp(-decay * time) * (
+    Math.cos(frequency * time) + dampingRatio / oscillationRatio * Math.sin(frequency * time)
+  );
+});
+
+function highlight(button, current, animate) {
+  const initialColor = getComputedStyle(button).color;
+  labelAnimations.get(button)?.cancel();
+  if (current) button.setAttribute('aria-current', 'true');
+  else button.removeAttribute('aria-current');
+
+  if (!animate || reducedMotion.matches) return;
+  const targetColor = getComputedStyle(button).color;
+  const from = initialColor.match(/[\d.]+/g).map(Number);
+  const to = targetColor.match(/[\d.]+/g).map(Number);
+  const keyframes = spring.map(progress => {
+    // Match the demo's squared RGB interpolation, including the spring overshoot.
+    const channels = from.map((value, channel) => {
+      const mixed = value ** 2 + (to[channel] ** 2 - value ** 2) * progress;
+      return Math.min(255, Math.round(Math.sqrt(Math.max(0, mixed))));
+    });
+    return { color: `rgb(${channels.join(', ')})` };
+  });
+  labelAnimations.set(button, button.animate(keyframes, springDuration));
+}
+
 let selected = -1;
 let frame = 0;
 
 function select(index) {
   if (index === selected) return;
-  rows[selected]?.removeAttribute('aria-current');
+  const isFirstSelection = selected === -1;
+  if (!isFirstSelection) highlight(rows[selected], false, true);
+  highlight(rows[index], true, !isFirstSelection);
   selected = index;
-  rows[index].setAttribute('aria-current', 'true');
 
   const item = items[index];
-  symbol.src = item.symbol;
-  preview.dataset.accent = String(Boolean(item.accent));
+  if (!isFirstSelection || index !== 0) previewButton.replaceChildren(symbols[index]);
+  preview.dataset.colorSymbol = String(Boolean(item.colorSymbol));
   captionNumber.textContent = `${String(index + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
   captionName.textContent = item.title;
   previewButton.setAttribute('aria-label', `View ${item.title}`);
-  updateProjectLink(projectLink, item.project);
 }
 
 function updateSelection() {
   frame = 0;
-  const first = rows[0].getBoundingClientRect();
-  const firstCenter = window.scrollY + first.top + first.height / 2;
-  const anchor = Math.min(window.innerHeight / 2, firstCenter);
-  let index = 0;
-  let previous = first;
-
-  for (let i = 1; i < rows.length; i++) {
-    const next = rows[i].getBoundingClientRect();
-    if (anchor < (previous.bottom + next.top) / 2) break;
-    index = i;
-    previous = next;
-  }
+  const bounds = list.parentElement.getBoundingClientRect();
+  // The demo evenly distributes 40 px scroll targets across the showcase.
+  const targetSpacing = (bounds.height - 40) / (rows.length - 1);
+  const distance = window.innerHeight / 2 + 1 - bounds.top;
+  const index = Math.max(0, Math.min(rows.length - 1, Math.floor(distance / targetSpacing)));
 
   select(index);
 }
@@ -77,8 +117,33 @@ function scheduleUpdate() {
   if (!frame) frame = requestAnimationFrame(updateSelection);
 }
 
+function updateScrollMotion() {
+  smoothScroll?.destroy();
+  if (reducedMotion.matches) {
+    rows.forEach(row => labelAnimations.get(row)?.cancel());
+    smoothScroll = undefined;
+    return;
+  }
+
+  smoothScroll = new Lenis({
+    duration: 1.2,
+    autoRaf: true,
+    anchors: true,
+    allowNestedScroll: true,
+    stopInertiaOnNavigate: true,
+  });
+  if (dialog.open) smoothScroll?.stop();
+}
+
+updateScrollMotion();
+reducedMotion.addEventListener('change', updateScrollMotion);
+
 previewButton.addEventListener('click', () => openSection(items[selected]));
-dialog.addEventListener('close', () => dialogMedia.removeAttribute('src'));
+dialog.addEventListener('close', () => {
+  if (dialog.open) return;
+  dialogMedia.removeAttribute('src');
+  smoothScroll?.start();
+});
 window.addEventListener('scroll', scheduleUpdate, { passive: true });
 window.addEventListener('resize', scheduleUpdate);
 window.addEventListener('pageshow', scheduleUpdate);

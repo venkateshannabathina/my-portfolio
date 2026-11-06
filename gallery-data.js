@@ -29,6 +29,6 @@ export const items = [
     title: 'Mighty Star',
     src: 'assets/mighty-star-photo.jpg',
     symbol: 'assets/mighty-star-eye.gif',
-    accent: '#ff0000',
+    colorSymbol: true,
   },
 ];

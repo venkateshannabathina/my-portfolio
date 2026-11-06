@@ -21,13 +21,14 @@
 
 * { box-sizing: border-box; }
 body { margin: 0; }
+html:has(.section-dialog[open]) { overflow: hidden; }
 button { font: inherit; color: inherit; }
 [hidden] { display: none; }
 
 .portfolio {
   --preview-size: 286px;
   --section-type: 82px;
-  padding: 245px 40px max(468px, calc(100svh - 340px));
+  padding: 245px 40px max(468px, calc(50svh - 39px));
 }
 
 .portfolio-header {
@@ -57,6 +58,7 @@ button { font: inherit; color: inherit; }
   flex: 1;
   max-width: 838px;
   margin: 0;
+  color: #000;
   font-size: 32px;
   font-weight: 400;
   line-height: 1.2;
@@ -87,16 +89,17 @@ button { font: inherit; color: inherit; }
 }
 
 .section-list button {
+  max-width: 100%;
+  overflow-wrap: break-word;
   font-size: var(--section-type);
+  font-weight: 400;
   line-height: 1;
   letter-spacing: -.04em;
   text-align: left;
   color: #e4e4e4;
-  transition: color 350ms ease;
 }
 
-.section-list button:is(:hover, :focus-visible) { color: #777; }
-.section-list button[aria-current='true'] { color: var(--active-color, #111); }
+.section-list button[aria-current='true'] { color: #111; }
 
 .section-preview {
   position: sticky;
@@ -116,31 +119,22 @@ button { font: inherit; color: inherit; }
   filter: brightness(0);
 }
 
-.section-preview[data-accent='true'] img { filter: none; }
+.section-preview[data-color-symbol='true'] img { filter: none; }
 
 .preview-caption {
-  display: flex;
-  gap: 10px;
   margin-top: 18px;
+  color: #000;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
   font-size: 12px;
   line-height: 1.2;
   letter-spacing: .08em;
 }
 
-.section-number { white-space: nowrap; }
-
-.project-link,
 .dialog-project-link {
   color: inherit;
   font-size: 14px;
   text-underline-offset: 3px;
-}
-
-.project-link {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 5px;
 }
 
 .section-dialog {
@@ -190,14 +184,15 @@ button { font: inherit; color: inherit; }
 
 @media (max-width: 1199px) {
   .portfolio { --section-type: 62px; }
+  .portfolio-header { gap: 40px; }
   .portfolio-header h1 { font-size: 28px; }
 }
 
 @media (max-width: 809px) {
   .portfolio {
-    --preview-size: min(122px, 34vw);
-    --section-type: clamp(30px, 9.75vw, 38px);
-    padding: 223px 20px max(473px, calc(100svh - 340px));
+    --preview-size: 122px;
+    --section-type: 38px;
+    padding: 223px 20px max(473px, calc(50svh - 39px));
   }
 
   .portfolio-header {
@@ -207,9 +202,4 @@ button { font: inherit; color: inherit; }
 
   .portfolio-header h1 { font-size: 18px; line-height: 1.3; }
   .scroll-label { font-size: 12px; line-height: 1.2; letter-spacing: .08em; }
-  .preview-caption { gap: 8px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .section-list button { transition: none; }
 }

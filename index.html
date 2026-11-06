@@ -7,14 +7,14 @@
   <title>Venkatesh Annabathina — Portfolio</title>
   <link rel="icon" href="assets/kERMSwCuDVncwKoOheLRutVYO0o.png">
   <link rel="preload" href="assets/fonts/bdo-grotesk.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="gallery.css?v=scroll-sync">
-  <script type="module" src="gallery.js?v=scroll-sync"></script>
+  <link rel="stylesheet" href="gallery.css?v=showcase-motion">
+  <script type="module" src="gallery.js?v=showcase-motion"></script>
 </head>
 <body>
   <main class="portfolio">
     <header class="portfolio-header">
       <p class="scroll-label">Scroll down</p>
-      <h1>Venkatesh Annabathina<br>Work, artifacts, and everything in between.</h1>
+      <h1>A portfolio of work, artifacts, and projects by Venkatesh Annabathina.</h1>
     </header>
 
     <section class="showcase" aria-label="Portfolio sections">
@@ -24,15 +24,13 @@
           <img src="assets/icons/user-round.svg" alt="" width="286" height="286" fetchpriority="high">
         </button>
         <figcaption class="preview-caption">
-          <span class="section-number">01 / 06</span>
-          <span class="section-name">About</span>
+          <span class="section-number">01 / 06</span>   <span class="section-name">About</span>
         </figcaption>
-        <a class="project-link" href="/face/" hidden>Open FACE ↗</a>
       </figure>
     </section>
   </main>
 
-  <dialog class="section-dialog" aria-labelledby="section-title">
+  <dialog class="section-dialog" aria-labelledby="section-title" data-lenis-prevent>
     <header class="dialog-header">
       <h2 id="section-title"></h2>
       <form method="dialog"><button class="close-button" aria-label="Close section" autofocus>×</button></form>
