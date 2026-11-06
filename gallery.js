@@ -4,6 +4,7 @@ import { items } from './gallery-data.js?v=section-intros';
 
 const list = document.querySelector('.section-list');
 const aboutPortal = document.querySelector('.about-portal');
+const aboutTags = document.querySelector('.about-tags');
 const intros = document.querySelectorAll('.section-intro');
 const captionNumber = document.querySelector('.section-number');
 const captionName = document.querySelector('.section-name');
@@ -87,6 +88,7 @@ function select(index) {
 
   const item = items[index];
   aboutPortal.hidden = item.title !== 'About';
+  aboutTags.hidden = aboutPortal.hidden;
   for (const intro of intros) {
     intro.classList.toggle('is-active', intro.dataset.intro === item.title);
   }
