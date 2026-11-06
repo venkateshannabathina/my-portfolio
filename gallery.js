@@ -1,7 +1,9 @@
+import { setupAboutPortal } from './about-portal.js?v=about-portal';
 import Lenis from './assets/vendor/lenis-1.3.25.mjs';
 import { items } from './gallery-data.js?v=section-intros';
 
 const list = document.querySelector('.section-list');
+const aboutPortal = document.querySelector('.about-portal');
 const intros = document.querySelectorAll('.section-intro');
 const captionNumber = document.querySelector('.section-number');
 const captionName = document.querySelector('.section-name');
@@ -84,6 +86,7 @@ function select(index) {
   selected = index;
 
   const item = items[index];
+  aboutPortal.hidden = item.title !== 'About';
   for (const intro of intros) {
     intro.classList.toggle('is-active', intro.dataset.intro === item.title);
   }
@@ -126,6 +129,7 @@ function updateScrollMotion() {
 }
 
 updateScrollMotion();
+setupAboutPortal(aboutPortal, reducedMotion);
 reducedMotion.addEventListener('change', updateScrollMotion);
 
 dialog.addEventListener('close', () => {
