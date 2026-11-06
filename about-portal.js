@@ -16,11 +16,6 @@ uniform float uAspect;
 uniform float uTime;
 uniform vec3 uPointer;
 
-float roundedBox(vec2 point, vec2 size, float radius) {
-  vec2 edge = abs(point) - size + radius;
-  return length(max(edge, 0.0)) + min(max(edge.x, edge.y), 0.0) - radius;
-}
-
 void main() {
   vec2 scale = vec2(uAspect, 1.0);
   vec2 point = (vUV * 2.0 - 1.0) * scale;
@@ -36,13 +31,12 @@ void main() {
   );
   warped += offset * touch * 0.23 * sin(pointerDistance * 13.0 - t * 3.0);
 
-  vec2 size = vec2(uAspect * 0.86, 0.76);
-  float radius = 0.46 + 0.05 * sin(t * 0.67);
-  float edge = roundedBox(warped, size, radius);
+  float radius = 0.78;
+  float edge = length(point) - radius;
   float inside = 1.0 - smoothstep(-0.012, 0.009, edge);
   float glass = exp(-abs(edge + 0.055) * 8.5);
-  vec2 radial = normalize(warped / size + vec2(0.0001));
-  vec2 uv = 0.5 + (warped - radial * glass * 0.11) / (2.0 * size.x * 1.07);
+  vec2 radial = normalize(point + vec2(0.0001));
+  vec2 uv = 0.5 + (warped - radial * glass * 0.11) / (2.0 * radius * 1.15);
   uv += offset * touch * 0.035 * sin(pointerDistance * 16.0 - t * 4.0);
   vec2 split = radial * (0.002 + 0.013 * glass + 0.012 * touch);
 

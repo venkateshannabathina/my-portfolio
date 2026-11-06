@@ -1,4 +1,4 @@
-import { setupAboutPortal } from './about-portal.js?v=about-portal';
+import { setupAboutPortal } from './about-portal.js?v=circle-portal';
 import Lenis from './assets/vendor/lenis-1.3.25.mjs';
 import { items } from './gallery-data.js?v=section-intros';
 
