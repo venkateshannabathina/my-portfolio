@@ -98,8 +98,6 @@ export function setupEventStories(viewer, reducedMotion) {
     }
   }
 
-  viewer.querySelector('.story-previous').addEventListener('click', () => show(index - 1));
-  viewer.querySelector('.story-next').addEventListener('click', () => show(index + 1));
   playback.addEventListener('click', () => {
     paused = !paused;
     syncPlayback();

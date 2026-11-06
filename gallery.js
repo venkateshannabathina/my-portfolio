@@ -1,7 +1,7 @@
 import { setupAboutPortal } from './about-portal.js?v=circle-portal';
 import Lenis from './assets/vendor/lenis-1.3.25.mjs';
 import { items } from './gallery-data.js?v=section-intros';
-import { setupEventStories } from './event-stories.js?v=event-stories';
+import { setupEventStories } from './event-stories.js?v=events-card-layout';
 
 const list = document.querySelector('.section-list');
 const aboutPortal = document.querySelector('.about-portal');
