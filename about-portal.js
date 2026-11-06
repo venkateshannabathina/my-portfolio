@@ -13,6 +13,8 @@ precision mediump float;
 varying vec2 vUV;
 uniform sampler2D uVideo;
 uniform float uAspect;
+uniform float uVideoAspect;
+uniform float uBox;
 uniform float uTime;
 uniform vec3 uPointer;
 
@@ -33,10 +35,21 @@ void main() {
 
   float radius = 0.78;
   float edge = length(point) - radius;
+  vec2 radial = normalize(point + vec2(0.0001));
+  vec2 mediaSize = vec2(radius * 1.15);
+  if (uBox > 0.5) {
+    vec2 bounds = vec2(uAspect * 0.90, 0.80);
+    float corner = 0.40;
+    vec2 q = abs(warped) - bounds + corner;
+    edge = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - corner;
+    vec2 axis = q.x > q.y ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+    radial = normalize(sign(warped + 0.0001) * (max(q, 0.0) + axis * 0.001));
+    mediaSize = max(bounds.x / uVideoAspect, bounds.y) * vec2(uVideoAspect, 1.0) * 1.12;
+  }
+
   float inside = 1.0 - smoothstep(-0.012, 0.009, edge);
   float glass = exp(-abs(edge + 0.055) * 8.5);
-  vec2 radial = normalize(point + vec2(0.0001));
-  vec2 uv = 0.5 + (warped - radial * glass * 0.11) / (2.0 * radius * 1.15);
+  vec2 uv = 0.5 + (warped - radial * glass * 0.11) / (2.0 * mediaSize);
   uv += offset * touch * 0.035 * sin(pointerDistance * 16.0 - t * 4.0);
   vec2 split = radial * (0.002 + 0.013 * glass + 0.012 * touch);
 
@@ -99,12 +112,14 @@ function createRenderer(canvas) {
   return {
     gl,
     aspect: gl.getUniformLocation(program, 'uAspect'),
+    videoAspect: gl.getUniformLocation(program, 'uVideoAspect'),
+    box: gl.getUniformLocation(program, 'uBox'),
     time: gl.getUniformLocation(program, 'uTime'),
     pointer: gl.getUniformLocation(program, 'uPointer'),
   };
 }
 
-export function setupAboutPortal(portal, reducedMotion) {
+export function setupMediaPortal(portal, reducedMotion, { box = false } = {}) {
   const canvas = portal.querySelector('canvas');
   const video = portal.querySelector('video');
   const pointer = { x: 0.5, y: 0.5, strength: 0 };
@@ -120,7 +135,7 @@ export function setupAboutPortal(portal, reducedMotion) {
     if (now - lastPaint < 30 || video.readyState < 2) return;
     lastPaint = now;
 
-    const { gl, aspect, time, pointer: pointerUniform } = renderer;
+    const { gl, aspect, videoAspect, box: boxUniform, time, pointer: pointerUniform } = renderer;
     const scale = Math.min(devicePixelRatio, 1.5);
     const width = Math.round(canvas.clientWidth * scale);
     const height = Math.round(canvas.clientHeight * scale);
@@ -137,6 +152,8 @@ export function setupAboutPortal(portal, reducedMotion) {
     }
     influence += (pointer.strength - influence) * 0.19;
     gl.uniform1f(aspect, width / height);
+    gl.uniform1f(videoAspect, video.videoWidth / video.videoHeight);
+    gl.uniform1f(boxUniform, Number(box));
     gl.uniform1f(time, now / 1000);
     gl.uniform3f(pointerUniform, pointer.x, pointer.y, influence);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -178,4 +195,6 @@ export function setupAboutPortal(portal, reducedMotion) {
     frame = 0;
     portal.classList.remove('is-rendered');
   });
+
+  return updatePlayback;
 }

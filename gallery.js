@@ -1,7 +1,6 @@
-import { setupAboutPortal } from './about-portal.js?v=circle-portal';
+import { setupMediaPortal } from './about-portal.js?v=events-portal';
 import Lenis from './assets/vendor/lenis-1.3.25.mjs';
 import { items } from './gallery-data.js?v=section-intros';
-import { setupEventStories } from './event-stories.js?v=events-card-layout';
 
 const list = document.querySelector('.section-list');
 const aboutPortal = document.querySelector('.about-portal');
@@ -16,8 +15,9 @@ const dialogTitle = dialog.querySelector('h2');
 const dialogMedia = dialog.querySelector('.section-media');
 const dialogProjectLink = dialog.querySelector('.dialog-project-link');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const eventStories = document.querySelector('.event-stories');
-const showEventStories = setupEventStories(eventStories, reducedMotion);
+const eventsPortal = document.querySelector('.events-portal');
+const updateAboutPlayback = setupMediaPortal(aboutPortal, reducedMotion);
+const updateEventsPlayback = setupMediaPortal(eventsPortal, reducedMotion, { box: true });
 const labelAnimations = new WeakMap();
 let smoothScroll;
 
@@ -40,7 +40,7 @@ const rows = items.map((item, index) => {
   button.type = 'button';
   button.textContent = item.title;
   if (item.title === 'Events') {
-    button.setAttribute('aria-controls', eventStories.id);
+    button.setAttribute('aria-controls', eventsPortal.id);
     button.addEventListener('click', () => scrollToSection(index));
   } else {
     button.setAttribute('aria-haspopup', 'dialog');
@@ -104,7 +104,9 @@ function select(index) {
   aboutPortal.hidden = item.title !== 'About';
   aboutTags.hidden = aboutPortal.hidden;
   workProjects.hidden = item.title !== 'Work';
-  showEventStories(item.title === 'Events');
+  eventsPortal.hidden = item.title !== 'Events';
+  updateAboutPlayback();
+  updateEventsPlayback();
   let activeIntro;
   for (const intro of intros) {
     const isActive = intro.dataset.intro === item.title;
@@ -119,7 +121,7 @@ function select(index) {
   if (activeIntro) parts.push(activeIntro);
   if (!aboutPortal.hidden) parts.push(aboutPortal, aboutTags);
   if (!workProjects.hidden) parts.push(workProjects);
-  if (!eventStories.hidden) parts.push(eventStories);
+  if (!eventsPortal.hidden) parts.push(eventsPortal);
   sectionAnimations = parts.map(part => part.animate(
     [{ opacity: 0, translate: '0 8px' }, { opacity: 1, translate: '0 0' }],
     { duration: 300, easing: 'cubic-bezier(.2, .75, .25, 1)' }
@@ -175,7 +177,6 @@ function updateScrollMotion() {
 }
 
 updateScrollMotion();
-setupAboutPortal(aboutPortal, reducedMotion);
 reducedMotion.addEventListener('change', updateScrollMotion);
 
 dialog.addEventListener('close', () => {

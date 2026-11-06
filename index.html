@@ -7,8 +7,8 @@
   <title>Venkatesh Annabathina — Portfolio</title>
   <link rel="icon" href="assets/kERMSwCuDVncwKoOheLRutVYO0o.png">
   <link rel="preload" href="assets/fonts/bdo-grotesk.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="gallery.css?v=events-card-layout">
-  <script type="module" src="gallery.js?v=events-card-layout"></script>
+  <link rel="stylesheet" href="gallery.css?v=events-portal">
+  <script type="module" src="gallery.js?v=events-portal"></script>
 </head>
 <body>
   <main class="portfolio">
@@ -25,7 +25,7 @@
 
     <section class="showcase" aria-label="Portfolio sections">
       <ul class="section-list"></ul>
-      <div class="about-portal" role="img" aria-label="Golden foliage inside a glowing glass circle">
+      <div class="media-portal about-portal" role="img" aria-label="Golden foliage inside a glowing glass circle">
         <video src="assets/about-portal.mp4" poster="assets/about-portal.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
         <canvas aria-hidden="true"></canvas>
       </div>
@@ -48,23 +48,10 @@
           <li><a href="https://github.com/venkateshannabathina/agent-memory-compresser/blob/main/README.md">#Memory<wbr>Compresser</a></li>
           <li><a href="https://github.com/venkateshannabathina/24Live/blob/main/readme.md">#24Live</a></li>
         </ul>
-        <div class="event-stories" id="event-stories" role="region" aria-label="Events photo stories" hidden>
-          <div class="story-card">
-            <div class="story-photos"></div>
-            <div class="story-overlay">
-              <div class="story-progress" aria-hidden="true"></div>
-              <div class="story-top">
-                <div class="story-label" aria-live="off">
-                  <h2 class="story-title"></h2>
-                  <p class="story-summary"></p>
-                </div>
-                <button class="story-playback" type="button" aria-label="Pause stories" aria-keyshortcuts="ArrowLeft ArrowRight">
-                  <svg class="story-play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 4v16l12-8z"/></svg>
-                  <svg class="story-pause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 4v16M17 4v16"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
+        <div class="media-portal events-portal" id="events-portal" role="img" aria-label="Horses backlit by the sun inside a glowing glass rectangle" hidden>
+          <!-- Footage: Zeynep Sude Emek, https://www.pexels.com/video/27979819/ -->
+          <video src="assets/events-horse.mp4" poster="assets/events-horse.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
+          <canvas aria-hidden="true"></canvas>
         </div>
         <p class="section-caption"><span class="section-number">01 / 06</span>   <span class="section-name">About</span></p>
       </div>
