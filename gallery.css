@@ -73,6 +73,13 @@ button { font: inherit; color: inherit; }
 }
 
 .section-intro.is-active { visibility: visible; }
+
+.section-intro-copy {
+  justify-self: start;
+  max-inline-size: min(42ch, 100%);
+  margin-inline-start: -8px;
+}
+
 .section-intro-name {
   justify-self: end;
   font-size: 72px;
