@@ -96,7 +96,8 @@ function updateSelection() {
   const bounds = list.parentElement.getBoundingClientRect();
   // The demo evenly distributes 40 px scroll targets across the showcase.
   const targetSpacing = (bounds.height - 40) / (rows.length - 1);
-  const distance = window.innerHeight / 2 + 1 - bounds.top;
+  // Keep the activation line at or above the first target on the initial screen.
+  const distance = Math.min(window.scrollY, window.innerHeight / 2 + 1 - bounds.top);
   const index = Math.max(0, Math.min(rows.length - 1, Math.floor(distance / targetSpacing)));
 
   select(index);

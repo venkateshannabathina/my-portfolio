@@ -28,7 +28,9 @@ button { font: inherit; color: inherit; }
 .portfolio {
   --caption-column: 286px;
   --section-type: 82px;
-  padding: 245px 40px max(468px, calc(50svh - 39px));
+  /* Keep the last target reachable when the activation line is above the viewport midpoint. */
+  --scroll-tail: calc(100svh - 360px);
+  padding: 245px 40px max(468px, var(--scroll-tail));
 }
 
 .portfolio-header {
@@ -204,7 +206,7 @@ button { font: inherit; color: inherit; }
   .portfolio {
     --caption-column: 122px;
     --section-type: 38px;
-    padding: 223px 20px max(473px, calc(50svh - 39px));
+    padding: 223px 20px max(473px, var(--scroll-tail));
   }
 
   .portfolio-header {
