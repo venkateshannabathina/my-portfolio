@@ -1,6 +1,7 @@
-import { setupMediaPortal } from './about-portal.js?v=events-portal';
+import { setupMediaPortal } from './about-portal.js?v=photo-portal';
 import Lenis from './assets/vendor/lenis-1.3.25.mjs';
 import { items } from './gallery-data.js?v=section-intros';
+import { setupEventStories } from './event-stories.js?v=photo-portal';
 
 const list = document.querySelector('.section-list');
 const aboutPortal = document.querySelector('.about-portal');
@@ -17,7 +18,7 @@ const dialogProjectLink = dialog.querySelector('.dialog-project-link');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const eventsPortal = document.querySelector('.events-portal');
 const updateAboutPlayback = setupMediaPortal(aboutPortal, reducedMotion);
-const updateEventsPlayback = setupMediaPortal(eventsPortal, reducedMotion, { box: true });
+const showEventStories = setupEventStories(eventsPortal, reducedMotion);
 const labelAnimations = new WeakMap();
 let smoothScroll;
 
@@ -104,9 +105,8 @@ function select(index) {
   aboutPortal.hidden = item.title !== 'About';
   aboutTags.hidden = aboutPortal.hidden;
   workProjects.hidden = item.title !== 'Work';
-  eventsPortal.hidden = item.title !== 'Events';
   updateAboutPlayback();
-  updateEventsPlayback();
+  showEventStories(item.title === 'Events');
   let activeIntro;
   for (const intro of intros) {
     const isActive = intro.dataset.intro === item.title;

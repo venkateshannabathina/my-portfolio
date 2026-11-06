@@ -11,10 +11,11 @@ void main() {
 const fragmentShader = `
 precision mediump float;
 varying vec2 vUV;
-uniform sampler2D uVideo;
+uniform sampler2D uMedia;
 uniform float uAspect;
-uniform float uVideoAspect;
+uniform float uMediaAspect;
 uniform float uBox;
+uniform float uPhoto;
 uniform float uTime;
 uniform vec3 uPointer;
 
@@ -37,6 +38,7 @@ void main() {
   float edge = length(point) - radius;
   vec2 radial = normalize(point + vec2(0.0001));
   vec2 mediaSize = vec2(radius * 1.15);
+  vec2 photoSize = mediaSize;
   if (uBox > 0.5) {
     vec2 bounds = vec2(uAspect * 0.90, 0.80);
     float corner = 0.40;
@@ -44,20 +46,35 @@ void main() {
     edge = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - corner;
     vec2 axis = q.x > q.y ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
     radial = normalize(sign(warped + 0.0001) * (max(q, 0.0) + axis * 0.001));
-    mediaSize = max(bounds.x / uVideoAspect, bounds.y) * vec2(uVideoAspect, 1.0) * 1.12;
+    mediaSize = max(bounds.x / uMediaAspect, bounds.y) * vec2(uMediaAspect, 1.0) * 1.12;
+    photoSize = min(bounds.x / uMediaAspect, bounds.y) * vec2(uMediaAspect, 1.0) * 0.96;
   }
 
   float inside = 1.0 - smoothstep(-0.012, 0.009, edge);
   float glass = exp(-abs(edge + 0.055) * 8.5);
-  vec2 uv = 0.5 + (warped - radial * glass * 0.11) / (2.0 * mediaSize);
-  uv += offset * touch * 0.035 * sin(pointerDistance * 16.0 - t * 4.0);
+  vec2 ripple = offset * touch * 0.035 * sin(pointerDistance * 16.0 - t * 4.0);
+  vec2 mediaPoint = warped - radial * glass * 0.11;
+  vec2 uv = 0.5 + mediaPoint / (2.0 * mediaSize) + ripple;
   vec2 split = radial * (0.002 + 0.013 * glass + 0.012 * touch);
 
   vec3 color = vec3(
-    texture2D(uVideo, uv + split).r,
-    texture2D(uVideo, uv).g,
-    texture2D(uVideo, uv - split).b
+    texture2D(uMedia, uv + split).r,
+    texture2D(uMedia, uv).g,
+    texture2D(uMedia, uv - split).b
   );
+  if (uPhoto > 0.5) {
+    vec2 photoUV = 0.5 + mediaPoint / (2.0 * photoSize) + ripple;
+    vec2 border = min(photoUV, 1.0 - photoUV);
+    float foreground = smoothstep(-0.01, 0.05, min(border.x, border.y));
+    vec3 photo = texture2D(uMedia, photoUV).rgb;
+    vec2 blur = vec2(0.10, 0.12);
+    vec3 backdrop = (
+      color + texture2D(uMedia, uv + blur).rgb + texture2D(uMedia, uv - blur).rgb
+      + texture2D(uMedia, uv + vec2(-blur.x, blur.y)).rgb
+      + texture2D(uMedia, uv + vec2(blur.x, -blur.y)).rgb
+    ) * 0.14;
+    color = mix(backdrop, photo, foreground);
+  }
   vec3 amber = vec3(1.0, 0.72, 0.41);
   vec3 violet = vec3(0.68, 0.69, 1.0);
   float tint = smoothstep(-0.8, 0.9, dot(radial, vec2(0.63, -0.55)));
@@ -112,14 +129,15 @@ function createRenderer(canvas) {
   return {
     gl,
     aspect: gl.getUniformLocation(program, 'uAspect'),
-    videoAspect: gl.getUniformLocation(program, 'uVideoAspect'),
+    mediaAspect: gl.getUniformLocation(program, 'uMediaAspect'),
     box: gl.getUniformLocation(program, 'uBox'),
+    photo: gl.getUniformLocation(program, 'uPhoto'),
     time: gl.getUniformLocation(program, 'uTime'),
     pointer: gl.getUniformLocation(program, 'uPointer'),
   };
 }
 
-export function setupMediaPortal(portal, reducedMotion, { box = false } = {}) {
+export function setupMediaPortal(portal, reducedMotion, { box = false, getPhoto } = {}) {
   const canvas = portal.querySelector('canvas');
   const video = portal.querySelector('video');
   const pointer = { x: 0.5, y: 0.5, strength: 0 };
@@ -128,14 +146,17 @@ export function setupMediaPortal(portal, reducedMotion, { box = false } = {}) {
   let visible = false;
   let frame = 0;
   let lastPaint = 0;
+  let lastMedia;
   let lastVideoTime = -1;
 
   function draw(now) {
     frame = requestAnimationFrame(draw);
-    if (now - lastPaint < 30 || video.readyState < 2) return;
+    if (now - lastPaint < 30) return;
+    const media = video ?? getPhoto?.();
+    if (!media || (video ? video.readyState < 2 : !media.complete || !media.naturalWidth)) return;
     lastPaint = now;
 
-    const { gl, aspect, videoAspect, box: boxUniform, time, pointer: pointerUniform } = renderer;
+    const { gl, aspect, mediaAspect, box: boxUniform, photo, time, pointer: pointerUniform } = renderer;
     const scale = Math.min(devicePixelRatio, 1.5);
     const width = Math.round(canvas.clientWidth * scale);
     const height = Math.round(canvas.clientHeight * scale);
@@ -146,14 +167,16 @@ export function setupMediaPortal(portal, reducedMotion, { box = false } = {}) {
       gl.viewport(0, 0, width, height);
     }
 
-    if (lastVideoTime !== video.currentTime) {
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, video);
-      lastVideoTime = video.currentTime;
+    if (lastMedia !== media || (video && lastVideoTime !== video.currentTime)) {
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, media);
+      lastMedia = media;
+      lastVideoTime = video?.currentTime;
     }
     influence += (pointer.strength - influence) * 0.19;
     gl.uniform1f(aspect, width / height);
-    gl.uniform1f(videoAspect, video.videoWidth / video.videoHeight);
+    gl.uniform1f(mediaAspect, video ? video.videoWidth / video.videoHeight : media.naturalWidth / media.naturalHeight);
     gl.uniform1f(boxUniform, Number(box));
+    gl.uniform1f(photo, Number(!video));
     gl.uniform1f(time, now / 1000);
     gl.uniform3f(pointerUniform, pointer.x, pointer.y, influence);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -165,11 +188,11 @@ export function setupMediaPortal(portal, reducedMotion, { box = false } = {}) {
     if (!shouldPlay) {
       cancelAnimationFrame(frame);
       frame = 0;
-      video.pause();
+      video?.pause();
       if (reducedMotion.matches) portal.classList.remove('is-rendered');
       return;
     }
-    video.play().catch(() => {});
+    if (video) video.play().catch(() => {});
     if (renderer === undefined) renderer = createRenderer(canvas);
     if (renderer && !frame) frame = requestAnimationFrame(draw);
   }
@@ -182,7 +205,7 @@ export function setupMediaPortal(portal, reducedMotion, { box = false } = {}) {
   document.addEventListener('visibilitychange', updatePlayback);
 
   portal.addEventListener('pointermove', event => {
-    const bounds = portal.getBoundingClientRect();
+    const bounds = canvas.getBoundingClientRect();
     pointer.x = (event.clientX - bounds.left) / bounds.width;
     pointer.y = 1 - (event.clientY - bounds.top) / bounds.height;
     pointer.strength = 1;
