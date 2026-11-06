@@ -40,6 +40,7 @@ const rows = items.map((item, index) => {
   button.type = 'button';
   button.textContent = item.title;
   if (item.title === 'Events') {
+    button.setAttribute('aria-controls', eventStories.id);
     button.addEventListener('click', () => scrollToSection(index));
   } else {
     button.setAttribute('aria-haspopup', 'dialog');
