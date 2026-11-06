@@ -1,99 +1,86 @@
-import { items } from './gallery-data.js';
+import { items } from './gallery-data.js?v=scroll-sync';
 
-const gallery = document.querySelector('.gallery');
-const scrollArea = document.querySelector('.gallery-scroll');
-const list = document.querySelector('.gallery-list');
-const mediaLayer = document.querySelector('.gallery-media');
-const faceButton = document.querySelector('.face-button');
-const clock = document.querySelector('.clock');
-const aboutName = document.querySelector('.about-name');
-const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const list = document.querySelector('.section-list');
+const preview = document.querySelector('.section-preview');
+const previewButton = preview.querySelector('.preview-button');
+const symbol = preview.querySelector('img');
+const captionNumber = preview.querySelector('.section-number');
+const captionName = preview.querySelector('.section-name');
+const projectLink = preview.querySelector('.project-link');
+const dialog = document.querySelector('.section-dialog');
+const dialogTitle = dialog.querySelector('h2');
+const dialogMedia = dialog.querySelector('.section-media');
+const dialogProjectLink = dialog.querySelector('.dialog-project-link');
+
+function updateProjectLink(link, project) {
+  link.hidden = !project;
+  if (project) link.href = project;
+}
+
+function openSection(item) {
+  dialogTitle.textContent = item.title;
+  dialogMedia.src = item.src;
+  updateProjectLink(dialogProjectLink, item.project);
+  dialog.showModal();
+}
 
 const rows = items.map(item => {
   const row = document.createElement('li');
-  if (item.accent) {
-    row.classList.add('row-accent');
-  }
-
-  const symbol = document.createElement('img');
-  symbol.className = `row-symbol${item.accent ? ' row-eye' : ''}`;
-  symbol.src = item.symbol;
-  symbol.alt = '';
-  symbol.setAttribute('aria-hidden', 'true');
-
-  const left = document.createElement('span');
-  left.className = 'row-title';
-  left.textContent = item.title;
-  row.append(left, symbol);
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = item.title;
+  button.setAttribute('aria-haspopup', 'dialog');
+  if (item.accent) row.style.setProperty('--active-color', item.accent);
+  button.addEventListener('click', () => openSection(item));
+  row.append(button);
   list.append(row);
-  return row;
+  return button;
 });
 
-const media = items.map(item => {
-  const element = document.createElement(item.kind);
-  element.src = item.src;
-  if (item.kind === 'video') {
-    element.muted = true;
-    element.loop = true;
-    element.playsInline = true;
-    element.preload = 'metadata';
-  } else {
-    element.alt = '';
-    element.loading = 'lazy';
+let selected = -1;
+let frame = 0;
+
+function select(index) {
+  if (index === selected) return;
+  rows[selected]?.removeAttribute('aria-current');
+  selected = index;
+  rows[index].setAttribute('aria-current', 'true');
+
+  const item = items[index];
+  symbol.src = item.symbol;
+  preview.dataset.accent = String(Boolean(item.accent));
+  captionNumber.textContent = `${String(index + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
+  captionName.textContent = item.title;
+  previewButton.setAttribute('aria-label', `View ${item.title}`);
+  updateProjectLink(projectLink, item.project);
+}
+
+function updateSelection() {
+  frame = 0;
+  const first = rows[0].getBoundingClientRect();
+  const firstCenter = window.scrollY + first.top + first.height / 2;
+  const anchor = Math.min(window.innerHeight / 2, firstCenter);
+  let index = 0;
+  let previous = first;
+
+  for (let i = 1; i < rows.length; i++) {
+    const next = rows[i].getBoundingClientRect();
+    if (anchor < (previous.bottom + next.top) / 2) break;
+    index = i;
+    previous = next;
   }
-  mediaLayer.append(element);
-  return element;
-});
 
-let visible = true;
-let frame = null;
-
-function update() {
-  frame = null;
-  const height = scrollArea.clientHeight;
-  const travel = Math.max(0, height / 2 - mediaLayer.lastElementChild.offsetHeight / 2 - 64);
-  const scrollDistance = travel * 1.5;
-  gallery.style.setProperty('--star-travel', `${scrollDistance}px`);
-  const range = scrollArea.scrollHeight - height - scrollDistance;
-  const extraScroll = Math.max(0, Math.min(scrollDistance, scrollArea.scrollTop - range));
-  const progressIntoStar = scrollDistance > 0 ? extraScroll / scrollDistance : 0;
-  const reveal = reducedMotion.matches
-    ? Number(progressIntoStar >= .5)
-    : progressIntoStar ** 2 * (3 - 2 * progressIntoStar);
-  const lift = travel * reveal;
-  gallery.style.setProperty('--star-lift', `${lift}px`);
-  gallery.style.setProperty('--star-row-offset', `${extraScroll - lift}px`);
-  gallery.style.setProperty('--star-reveal', `${reveal * 100}%`);
-  const wipeTop = height * (1 - reveal);
-  document.body.classList.toggle('star-light', wipeTop < clock.getBoundingClientRect().bottom);
-  const progress = (range > 0 ? Math.min(1, scrollArea.scrollTop / range) : 0) * Math.max(items.length - 1, 1);
-  const selected = Math.max(0, Math.min(items.length - 1, Math.round(progress)));
-  faceButton.hidden = items[selected].title !== 'Artifacts';
-  aboutName.dataset.visible = String(selected === 0);
-  aboutName.setAttribute('aria-hidden', String(selected !== 0));
-
-  const galleryTop = gallery.getBoundingClientRect().top;
-  rows.forEach((row, index) => {
-    const rowBottom = row.getBoundingClientRect().bottom - galleryTop;
-    row.classList.toggle('row-devoured', progressIntoStar > 0 && rowBottom >= wipeTop && !items[index].accent);
-    const isSelected = index === selected;
-    media[index].style.opacity = isSelected ? '1' : '0';
-    media[index].style.visibility = isSelected ? 'visible' : 'hidden';
-    row.dataset.selected = String(isSelected);
-    if (media[index] instanceof HTMLVideoElement) {
-      if (!reducedMotion.matches && isSelected && visible) media[index].play().catch(() => {});
-      else media[index].pause();
-    }
-  });
+  select(index);
 }
 
 function scheduleUpdate() {
-  if (frame === null && visible) frame = requestAnimationFrame(update);
+  if (!frame) frame = requestAnimationFrame(updateSelection);
 }
-new ResizeObserver(scheduleUpdate).observe(gallery);
-new IntersectionObserver(([entry]) => {
-  visible = entry.isIntersecting;
-  if (!visible) media.forEach(element => { if (element instanceof HTMLVideoElement) element.pause(); });
-}, {threshold:0}).observe(gallery);
-scrollArea.addEventListener('scroll', scheduleUpdate, {passive:true});
-scheduleUpdate();
+
+previewButton.addEventListener('click', () => openSection(items[selected]));
+dialog.addEventListener('close', () => dialogMedia.removeAttribute('src'));
+window.addEventListener('scroll', scheduleUpdate, { passive: true });
+window.addEventListener('resize', scheduleUpdate);
+window.addEventListener('pageshow', scheduleUpdate);
+document.fonts.ready.then(scheduleUpdate);
+updateSelection();
