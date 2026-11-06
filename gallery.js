@@ -5,6 +5,7 @@ import { items } from './gallery-data.js?v=section-intros';
 const list = document.querySelector('.section-list');
 const aboutPortal = document.querySelector('.about-portal');
 const aboutTags = document.querySelector('.about-tags');
+const workProjects = document.querySelector('.work-projects');
 const intros = document.querySelectorAll('.section-intro');
 const captionNumber = document.querySelector('.section-number');
 const captionName = document.querySelector('.section-name');
@@ -94,6 +95,7 @@ function select(index) {
   const item = items[index];
   aboutPortal.hidden = item.title !== 'About';
   aboutTags.hidden = aboutPortal.hidden;
+  workProjects.hidden = item.title !== 'Work';
   let activeIntro;
   for (const intro of intros) {
     const isActive = intro.dataset.intro === item.title;
@@ -107,6 +109,7 @@ function select(index) {
   const parts = [caption];
   if (activeIntro) parts.push(activeIntro);
   if (!aboutPortal.hidden) parts.push(aboutPortal, aboutTags);
+  if (!workProjects.hidden) parts.push(workProjects);
   sectionAnimations = parts.map(part => part.animate(
     [{ opacity: 0, translate: '0 8px' }, { opacity: 1, translate: '0 0' }],
     { duration: 300, easing: 'cubic-bezier(.2, .75, .25, 1)' }
@@ -115,7 +118,7 @@ function select(index) {
 
 function updateSelection() {
   frame = 0;
-  const bounds = list.parentElement.getBoundingClientRect();
+  const bounds = list.getBoundingClientRect();
   // The demo evenly distributes 40 px scroll targets across the showcase.
   const targetSpacing = (bounds.height - 40) / (rows.length - 1);
   // Keep the activation line at or above the first target on the initial screen.
