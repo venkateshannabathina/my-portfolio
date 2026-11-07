@@ -225,6 +225,7 @@ button { font: inherit; color: inherit; }
 }
 
 .section-details:has(.events-portal:not([hidden])) {
+  --frame-height-limit: min(60svh, 440px);
   grid-template-rows: auto auto;
   align-self: center;
   justify-self: end;
@@ -237,9 +238,19 @@ button { font: inherit; color: inherit; }
   isolation: isolate;
 }
 
+.story-frame,
+.section-details:has(.events-portal:not([hidden])) > .section-caption {
+  width: min(100%, calc(var(--frame-aspect, 1.85) * var(--frame-height-limit)));
+  margin-inline: auto;
+  transition: width 500ms cubic-bezier(.2, .75, .25, 1);
+}
+
+.story-frame { position: relative; }
+
 .story-card {
   position: relative;
-  aspect-ratio: 1.85;
+  aspect-ratio: var(--frame-aspect, 1.85);
+  transition: aspect-ratio 500ms cubic-bezier(.2, .75, .25, 1);
   touch-action: pan-y pinch-zoom;
   user-select: none;
   cursor: pointer;
@@ -349,6 +360,10 @@ button { font: inherit; color: inherit; }
 }
 
 @media (max-width: 550px) {
+  .section-details:has(.events-portal:not([hidden])) {
+    --frame-height-limit: min(44svh, 280px);
+  }
+
   .story-overlay {
     position: static;
     margin: 1px 5% 9px;
@@ -358,6 +373,14 @@ button { font: inherit; color: inherit; }
 
   .story-progress span { background: #d7d7d7; }
   .story-playback { background: #ededed; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-frame,
+  .story-card,
+  .section-details:has(.events-portal:not([hidden])) > .section-caption {
+    transition: none;
+  }
 }
 
 .events-portal:not([hidden]) + .section-caption { padding-inline-start: 5%; }

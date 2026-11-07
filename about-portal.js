@@ -25,13 +25,13 @@ void main() {
   vec2 pointer = (uPointer.xy * 2.0 - 1.0) * scale;
   vec2 offset = point - pointer;
   float pointerDistance = length(offset);
-  float touch = exp(-pointerDistance * pointerDistance * 4.5) * uPointer.z;
+  float touch = exp(-pointerDistance * pointerDistance * 4.5) * uPointer.z * (1.0 - uPhoto);
   float t = uTime * 0.72;
 
   vec2 warped = point + vec2(
     sin(point.y * 3.4 + t) * 0.058 + cos(point.x * 3.1 - t * 0.8) * 0.025,
     sin(point.x * 2.4 - t * 1.1) * 0.072 + sin(point.y * 3.8 + t * 0.65) * 0.025
-  );
+  ) * (1.0 - uPhoto);
   warped += offset * touch * 0.23 * sin(pointerDistance * 13.0 - t * 3.0);
 
   float radius = 0.78;
@@ -63,7 +63,7 @@ void main() {
     texture2D(uMedia, uv - split).b
   );
   if (uPhoto > 0.5) {
-    vec2 photoUV = 0.5 + mediaPoint / (2.0 * photoSize) + ripple;
+    vec2 photoUV = 0.5 + point / (2.0 * photoSize);
     vec2 border = min(photoUV, 1.0 - photoUV);
     float foreground = smoothstep(-0.01, 0.05, min(border.x, border.y));
     vec3 photo = texture2D(uMedia, photoUV).rgb;

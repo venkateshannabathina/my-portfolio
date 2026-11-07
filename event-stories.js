@@ -1,4 +1,4 @@
-import { setupMediaPortal } from './about-portal.js?v=photo-portal';
+import { setupMediaPortal } from './about-portal.js?v=still-photos';
 
 const stories = [
   { file: 'deepmind-01', title: 'Google DeepMind Hackathon', summary: 'Bangalore · July 2026', alt: 'Two attendees in front of the blue hackathon sign' },
@@ -22,6 +22,7 @@ export function setupEventStories(viewer, reducedMotion) {
   const title = viewer.querySelector('.story-title');
   const summary = viewer.querySelector('.story-summary');
   const playback = viewer.querySelector('.story-playback');
+  const details = viewer.closest('.section-details');
   const slides = [];
   const fills = [];
   let index = 0;
@@ -38,6 +39,7 @@ export function setupEventStories(viewer, reducedMotion) {
     photo.alt = story.alt;
     photo.decoding = 'async';
     photo.draggable = false;
+    photo.addEventListener('load', updatePhotoSize);
     layer.append(photo);
     photos.append(layer);
     slides.push({ layer, photo });
@@ -58,6 +60,14 @@ export function setupEventStories(viewer, reducedMotion) {
     return (storyIndex + stories.length) % stories.length;
   }
 
+  function updatePhotoSize() {
+    const photo = slides[index].photo;
+    if (!photo.naturalWidth) return;
+    // Match the photo to the glass opening, which is 90% wide and 80% high.
+    const aspect = photo.naturalWidth / photo.naturalHeight * (0.8 / 0.9);
+    details.style.setProperty('--frame-aspect', String(aspect));
+  }
+
   function loadNearby() {
     for (const i of [index, wrap(index + 1), wrap(index - 1)]) {
       const { layer, photo } = slides[i];
@@ -70,6 +80,7 @@ export function setupEventStories(viewer, reducedMotion) {
   function show(nextIndex) {
     index = wrap(nextIndex);
     if (!viewer.hidden) loadNearby();
+    updatePhotoSize();
     elapsed = 0;
     lastTime = undefined;
     title.textContent = stories[index].title;

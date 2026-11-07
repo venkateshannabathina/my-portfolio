@@ -1,7 +1,7 @@
-import { setupMediaPortal } from './about-portal.js?v=photo-portal';
+import { setupMediaPortal } from './about-portal.js?v=still-photos';
 import Lenis from './assets/vendor/lenis-1.3.25.mjs';
 import { items } from './gallery-data.js?v=section-intros';
-import { setupEventStories } from './event-stories.js?v=photo-portal';
+import { setupEventStories } from './event-stories.js?v=still-photos';
 
 const list = document.querySelector('.section-list');
 const aboutPortal = document.querySelector('.about-portal');
