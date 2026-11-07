@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000" />
     <title>Tasha · Portrait</title>
-    <script type="module" crossorigin src="/face/assets/index-CbwnVIj2.js"></script>
+    <script type="module" crossorigin src="/face/assets/index-DIW2pzAT.js"></script>
     <link rel="modulepreload" crossorigin href="/face/assets/math.scalar.functions-B_eaYLVj.js">
     <link rel="modulepreload" crossorigin href="/face/assets/domManagement-BqltO0ki.js">
     <link rel="modulepreload" crossorigin href="/face/assets/tools.functions-DKZ2iq4y.js">
@@ -41,14 +41,14 @@
     <link rel="modulepreload" crossorigin href="/face/assets/constants-_wyaM_ID.js">
     <link rel="modulepreload" crossorigin href="/face/assets/flowGraphInteger.pure-BKfG1Hxi.js">
     <link rel="modulepreload" crossorigin href="/face/assets/glTFLoaderAnimation.pure-DV8GNstb.js">
-    <link rel="modulepreload" crossorigin href="/face/assets/arkit-schema-DpxL7rS2.js">
+    <link rel="modulepreload" crossorigin href="/face/assets/arkit-schema-CSAmgmn2.js">
+    <link rel="modulepreload" crossorigin href="/face/assets/renderTargetTexture.pure-BJ52ZDag.js">
+    <link rel="modulepreload" crossorigin href="/face/assets/openpbrMaterialLoadingAdapter-Bmm1eYeq.js">
     <link rel="modulepreload" crossorigin href="/face/assets/easing-FZoVzv60.js">
     <link rel="modulepreload" crossorigin href="/face/assets/effectRenderer.pure-aWtdULIZ.js">
     <link rel="modulepreload" crossorigin href="/face/assets/sphericalPolynomial.pure-B71oXU_C.js">
-    <link rel="modulepreload" crossorigin href="/face/assets/renderTargetTexture.pure-BJ52ZDag.js">
     <link rel="modulepreload" crossorigin href="/face/assets/postProcess.pure-CZmNfWVF.js">
     <link rel="modulepreload" crossorigin href="/face/assets/imageProcessing-DNzio1xS.js">
-    <link rel="modulepreload" crossorigin href="/face/assets/openpbrMaterialLoadingAdapter-Bmm1eYeq.js">
     <link rel="modulepreload" crossorigin href="/face/assets/pbrMaterial.pure-B48WKXqh.js">
     <link rel="modulepreload" crossorigin href="/face/assets/multiRenderTarget.pure-BF7nULaA.js">
     <link rel="modulepreload" crossorigin href="/face/assets/bone.pure-3i4RQh9p.js">
@@ -67,12 +67,27 @@
     <link rel="modulepreload" crossorigin href="/face/assets/flowGraphRichTypes-B5OkEhbP.js">
     <link rel="modulepreload" crossorigin href="/face/assets/interactivityReferences-D91mjOy-.js">
     <link rel="modulepreload" crossorigin href="/face/assets/flowGraphDelayRegistry-Dd3murvx.js">
-    <link rel="stylesheet" crossorigin href="/face/assets/index-CO6S0zWh.css">
+    <link rel="stylesheet" crossorigin href="/face/assets/index-Dq2SJEZ5.css">
   </head>
   <body>
     <canvas id="portrait" aria-label="Interactive textured portrait of Tasha. Drag to orbit, scroll to zoom, double-click to reset. Press H for controls." tabindex="0"></canvas>
     <div id="loading" role="status"><span class="spinner"></span><span id="progress">Loading Tasha</span></div>
     <div id="failure" role="alert" hidden></div>
+    <button id="face-toggle" aria-controls="face-panel" aria-expanded="false" disabled>Face</button>
+    <aside id="face-panel" aria-label="Face motion capture" hidden>
+      <header><div><span class="eyebrow">TASHA / LIVE</span><h1>Face mocap</h1></div><button data-face-close aria-label="Close face mocap">×</button></header>
+      <p class="camera-intro">Use your laptop camera or a connected webcam to bring Tasha to life.</p>
+      <label>Camera source<select data-webcam-device aria-label="Camera source"><option value="">Default camera</option></select></label>
+      <button data-webcam-start type="button" class="camera-start">Start camera</button>
+      <p data-webcam-status role="status">Choose a camera, then start face tracking.</p>
+      <div data-webcam-preview-wrap class="camera-preview" hidden><video data-webcam-preview muted playsinline aria-label="Your camera preview"></video><span>YOUR CAMERA</span></div>
+      <div class="dev-actions">
+        <button data-webcam-calibrate type="button" disabled>Calibrate neutral</button>
+        <button data-webcam-recenter type="button" disabled>Recenter head</button>
+      </div>
+      <small>Face the camera, then blink, smile, speak or turn your head.<br>Video is processed on your device.</small>
+      <a class="face-back" href="/">← Back to portfolio</a>
+    </aside>
     <aside id="controls" hidden>
       <p>TASHA <span>PORTRAIT</span></p>
       <label>Exposure <input id="exposure" type="range" min="0.5" max="1.7" step="0.01" value="1.18" /></label>
@@ -82,13 +97,44 @@
     <button id="dev-toggle" aria-controls="arkit-panel" aria-expanded="false" disabled>Dev</button>
     <aside id="arkit-panel" aria-label="ARKit development controls" hidden>
       <header><div><span class="eyebrow">TASHA / DEVELOPMENT</span><h1>ARKit Face</h1></div><button data-close aria-label="Close ARKit controls">×</button></header>
-      <label class="character-picker">Face<select data-character aria-label="Face"><option value="tasha">Tasha</option><option value="ada">Ada Wong</option><option value="thanos">Thanos</option></select></label>
-      <p data-character-message role="status" hidden></p>
       <p data-status role="status">Loading facial rig…</p>
+      <details class="custom-capture" data-custom-capture>
+        <summary>Custom iPhone capture</summary>
+        <p>Track your eyes, brows, nose, cheeks and mouth with Tasha Capture.</p>
+        <button data-custom-start type="button">Start iPhone receiver</button>
+        <div data-custom-connection hidden>
+          <label>Mac network address<select data-custom-address aria-label="Mac network address"></select></label>
+          <label>iPhone connection<input data-custom-pairing type="text" readonly aria-label="iPhone connection" /></label>
+          <button data-custom-copy type="button">Copy iPhone connection</button>
+          <button data-custom-recenter type="button">Recenter head</button>
+        </div>
+        <p data-custom-status role="status"></p>
+        <div class="dev-actions">
+          <button data-custom-neutral type="button">Capture neutral</button>
+          <button data-custom-full-range type="button">Calibrate full range</button>
+        </div>
+        <p data-custom-calibration-status></p>
+        <div data-custom-wizard class="calibration-wizard" hidden>
+          <p data-custom-prompt></p>
+          <p data-custom-sample-status role="status"></p>
+          <button data-custom-record type="button">Record pose</button>
+          <button data-custom-cancel type="button">Cancel calibration</button>
+        </div>
+        <label class="check"><input data-custom-eye-transforms type="checkbox" checked /> Use individual eye transforms for gaze</label>
+        <details><summary>Face sensitivity &amp; calibration files</summary>
+          <p>1× uses your calibrated movement range. Adjust each region while watching Tasha.</p>
+          <div data-custom-gains class="capture-gains"></div>
+          <button data-custom-profile-export type="button">Save calibration</button>
+          <button data-custom-profile-import type="button">Load calibration</button>
+          <button data-custom-profile-reset type="button">Reset calibration</button>
+          <input data-custom-profile-file type="file" accept=".json,application/json" hidden />
+        </details>
+      </details>
       <div class="dev-actions">
         <button data-camera type="button">Start Camera</button>
         <button data-camera-recenter type="button" hidden>Recenter head</button>
       </div>
+      <label>Head level <output data-head-level-value>4°</output><input data-head-level aria-label="Head level" type="range" min="-15" max="15" step="0.5" value="4" /></label>
       <label data-camera-choice hidden>Camera<select data-camera-device></select></label>
       <p data-camera-status role="status" hidden></p>
       <div class="dev-actions"><button data-neutral>Reset face</button><button data-demo>Play expressions</button></div>
@@ -96,6 +142,7 @@
       <div class="face-options">
         <label class="check"><input data-correctives type="checkbox" checked /> Corrective shapes</label>
         <label>Smoothing <input data-smoothing aria-label="Expression smoothing" type="range" min="0" max="160" step="5" value="55" /></label>
+        <label>Brow sensitivity <output data-brow-sensitivity-value>1.8×</output><input data-brow-sensitivity aria-label="Brow sensitivity" type="range" min="1" max="3" step="0.1" value="1.8" /></label>
       </div>
       <details class="live-source"><summary>Live input &amp; expression files</summary>
         <p>ARKit names · values 0–1 · character’s left/right</p>

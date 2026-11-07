@@ -10,7 +10,7 @@ export const items = [
   {
     title: 'Artifacts',
     src: 'assets/artifacts-current.gif',
-    project: '/face/',
+    project: '/face/?camera=1',
   },
   {
     title: 'Events',
