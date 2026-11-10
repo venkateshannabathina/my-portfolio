@@ -1,12 +1,13 @@
-import { setupMediaPortal } from './about-portal.js?v=still-photos';
+import { setupMediaPortal } from './about-portal.js?v=soft-portal-edges';
 import Lenis from './assets/vendor/lenis-1.3.25.mjs';
 import { items } from './gallery-data.js?v=browser-camera-nov07';
-import { setupEventStories } from './event-stories.js?v=events-no-progress';
+import { setupEventStories } from './event-stories.js?v=soft-portal-edges';
 
 const list = document.querySelector('.section-list');
 const aboutPortal = document.querySelector('.about-portal');
 const aboutTags = document.querySelector('.about-tags');
 const workProjects = document.querySelector('.work-projects');
+const artifactTags = document.querySelector('.artifact-tags');
 const intros = document.querySelectorAll('.section-intro');
 const captionNumber = document.querySelector('.section-number');
 const captionName = document.querySelector('.section-name');
@@ -105,6 +106,7 @@ function select(index) {
   aboutPortal.hidden = item.title !== 'About';
   aboutTags.hidden = aboutPortal.hidden;
   workProjects.hidden = item.title !== 'Work';
+  artifactTags.hidden = item.title !== 'Artifacts';
   updateAboutPlayback();
   showEventStories(item.title === 'Events');
   let activeIntro;
@@ -121,6 +123,7 @@ function select(index) {
   if (activeIntro) parts.push(activeIntro);
   if (!aboutPortal.hidden) parts.push(aboutPortal, aboutTags);
   if (!workProjects.hidden) parts.push(workProjects);
+  if (!artifactTags.hidden) parts.push(artifactTags);
   if (!eventsPortal.hidden) parts.push(eventsPortal);
   sectionAnimations = parts.map(part => part.animate(
     [{ opacity: 0, translate: '0 8px' }, { opacity: 1, translate: '0 0' }],

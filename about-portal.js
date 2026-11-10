@@ -86,7 +86,9 @@ void main() {
   color = mix(color, vec3(1.0, 0.98, 0.91), rim * (0.36 + reflection * 0.50 + touch * 0.12));
 
   float outer = exp(-max(edge, 0.0) * 10.5) * (0.40 + 0.10 * touch);
-  gl_FragColor = vec4(mix(halo, color, inside), max(inside, outer));
+  vec2 canvasMargins = min(vUV, 1.0 - vUV);
+  float canvasFade = smoothstep(0.0, mix(0.10, 0.035, uBox), min(canvasMargins.x, canvasMargins.y));
+  gl_FragColor = vec4(mix(halo, color, inside), max(inside, outer) * canvasFade);
 }
 `;
 

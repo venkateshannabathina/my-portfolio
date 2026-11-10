@@ -123,19 +123,19 @@ button { font: inherit; color: inherit; }
   overflow-wrap: anywhere;
 }
 
-.work-projects a {
+.section-tags a {
   color: inherit;
   text-decoration-color: #bdbdbd;
   text-decoration-thickness: 1px;
   text-underline-offset: .12em;
 }
 
-.work-projects a:is(:hover, :focus-visible) {
+.section-tags a:is(:hover, :focus-visible) {
   color: #111;
   text-decoration-color: currentColor;
 }
 
-.work-projects a:focus-visible {
+.section-tags a:focus-visible {
   outline: 2px solid #111;
   outline-offset: 2px;
 }

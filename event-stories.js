@@ -1,4 +1,4 @@
-import { setupMediaPortal } from './about-portal.js?v=still-photos';
+import { setupMediaPortal } from './about-portal.js?v=soft-portal-edges';
 
 const stories = [
   { file: 'deepmind-01', title: 'Google DeepMind Hackathon', summary: 'Bangalore · July 2026', alt: 'Two attendees in front of the blue hackathon sign' },
