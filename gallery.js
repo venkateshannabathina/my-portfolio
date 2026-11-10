@@ -8,6 +8,7 @@ const aboutPortal = document.querySelector('.about-portal');
 const aboutTags = document.querySelector('.about-tags');
 const workProjects = document.querySelector('.work-projects');
 const artifactTags = document.querySelector('.artifact-tags');
+const contactTags = document.querySelector('.contact-tags');
 const intros = document.querySelectorAll('.section-intro');
 const captionNumber = document.querySelector('.section-number');
 const captionName = document.querySelector('.section-name');
@@ -41,8 +42,8 @@ const rows = items.map((item, index) => {
   const button = document.createElement('button');
   button.type = 'button';
   button.textContent = item.title;
-  if (item.title === 'Events') {
-    button.setAttribute('aria-controls', eventsPortal.id);
+  if (item.title === 'Events' || item.title === 'Contact') {
+    button.setAttribute('aria-controls', item.title === 'Events' ? eventsPortal.id : contactTags.id);
     button.addEventListener('click', () => scrollToSection(index));
   } else {
     button.setAttribute('aria-haspopup', 'dialog');
@@ -107,6 +108,7 @@ function select(index) {
   aboutTags.hidden = aboutPortal.hidden;
   workProjects.hidden = item.title !== 'Work';
   artifactTags.hidden = item.title !== 'Artifacts';
+  contactTags.hidden = item.title !== 'Contact';
   updateAboutPlayback();
   showEventStories(item.title === 'Events');
   let activeIntro;
@@ -124,6 +126,7 @@ function select(index) {
   if (!aboutPortal.hidden) parts.push(aboutPortal, aboutTags);
   if (!workProjects.hidden) parts.push(workProjects);
   if (!artifactTags.hidden) parts.push(artifactTags);
+  if (!contactTags.hidden) parts.push(contactTags);
   if (!eventsPortal.hidden) parts.push(eventsPortal);
   sectionAnimations = parts.map(part => part.animate(
     [{ opacity: 0, translate: '0 8px' }, { opacity: 1, translate: '0 0' }],

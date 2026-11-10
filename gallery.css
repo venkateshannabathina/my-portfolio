@@ -119,8 +119,18 @@ button { font: inherit; color: inherit; }
 .section-tags[hidden] { display: none; }
 .about-tag-secondary { font-size: .88em; }
 
-.work-projects {
+.work-projects,
+.contact-tags {
   overflow-wrap: anywhere;
+}
+
+.contact-tags li { max-inline-size: 100%; }
+
+@media (width >= 810px) {
+  .section-details:has(.contact-tags:not([hidden])) {
+    justify-self: end;
+    width: 340px;
+  }
 }
 
 .section-tags a {
