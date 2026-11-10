@@ -295,32 +295,11 @@ button { font: inherit; color: inherit; }
   pointer-events: none;
 }
 
-.story-progress { display: flex; gap: 4px; }
-
-.story-progress span {
-  flex: 1;
-  height: 3px;
-  overflow: hidden;
-  border-radius: 10px;
-  background: #16161699;
-  box-shadow: 0 0 0 1px #ffffff40;
-}
-
-.story-progress i {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-}
-
 .story-top {
   display: flex;
   align-items: start;
   justify-content: space-between;
   gap: 6px;
-  margin-top: 7px;
 }
 
 .story-title {
@@ -371,7 +350,6 @@ button { font: inherit; color: inherit; }
     text-shadow: none;
   }
 
-  .story-progress span { background: #d7d7d7; }
   .story-playback { background: #ededed; }
 }
 

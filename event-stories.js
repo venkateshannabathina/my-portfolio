@@ -17,14 +17,12 @@ const storyDuration = 5500;
 export function setupEventStories(viewer, reducedMotion) {
   const card = viewer.querySelector('.story-card');
   const photos = viewer.querySelector('.story-photos');
-  const progress = viewer.querySelector('.story-progress');
   const label = viewer.querySelector('.story-label');
   const title = viewer.querySelector('.story-title');
   const summary = viewer.querySelector('.story-summary');
   const playback = viewer.querySelector('.story-playback');
   const details = viewer.closest('.section-details');
   const slides = [];
-  const fills = [];
   let index = 0;
   let elapsed = 0;
   let frame = 0;
@@ -43,12 +41,6 @@ export function setupEventStories(viewer, reducedMotion) {
     layer.append(photo);
     photos.append(layer);
     slides.push({ layer, photo });
-
-    const track = document.createElement('span');
-    const fill = document.createElement('i');
-    track.append(fill);
-    progress.append(track);
-    fills.push(fill);
   }
 
   const updatePortal = setupMediaPortal(viewer, reducedMotion, {
@@ -89,7 +81,6 @@ export function setupEventStories(viewer, reducedMotion) {
       const current = i === index;
       layer.classList.toggle('is-current', current);
       layer.setAttribute('aria-hidden', String(!current));
-      fills[i].style.transform = i < index ? 'scaleX(1)' : 'scaleX(0)';
     });
   }
 
@@ -97,7 +88,6 @@ export function setupEventStories(viewer, reducedMotion) {
     if (lastTime !== undefined) elapsed += time - lastTime;
     if (elapsed >= storyDuration) show(index + 1);
     lastTime = time;
-    fills[index].style.transform = `scaleX(${elapsed / storyDuration})`;
     frame = requestAnimationFrame(tick);
   }
 
