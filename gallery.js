@@ -54,19 +54,7 @@ const rows = items.map((item, index) => {
   return button;
 });
 
-// Sample the demo's 350 ms spring with bounce 0.25.
-const springDuration = 350;
-const dampingRatio = 0.75;
-const oscillationRatio = Math.sqrt(1 - dampingRatio ** 2);
-const decay = Math.log(dampingRatio / (0.001 * oscillationRatio));
-const frequency = decay * oscillationRatio / dampingRatio;
-const spring = Array.from({ length: 36 }, (_, step) => {
-  const time = step / 35;
-  if (step === 35) return 1;
-  return 1 - Math.exp(-decay * time) * (
-    Math.cos(frequency * time) + dampingRatio / oscillationRatio * Math.sin(frequency * time)
-  );
-});
+const revealEasing = 'cubic-bezier(.22, 1, .36, 1)';
 
 function highlight(button, current, animate) {
   const initialColor = getComputedStyle(button).color;
@@ -76,17 +64,10 @@ function highlight(button, current, animate) {
 
   if (!animate || reducedMotion.matches) return;
   const targetColor = getComputedStyle(button).color;
-  const from = initialColor.match(/[\d.]+/g).map(Number);
-  const to = targetColor.match(/[\d.]+/g).map(Number);
-  const keyframes = spring.map(progress => {
-    // Match the demo's squared RGB interpolation, including the spring overshoot.
-    const channels = from.map((value, channel) => {
-      const mixed = value ** 2 + (to[channel] ** 2 - value ** 2) * progress;
-      return Math.min(255, Math.round(Math.sqrt(Math.max(0, mixed))));
-    });
-    return { color: `rgb(${channels.join(', ')})` };
-  });
-  labelAnimations.set(button, button.animate(keyframes, springDuration));
+  labelAnimations.set(button, button.animate(
+    [{ color: initialColor }, { color: targetColor }],
+    { duration: 520, easing: revealEasing }
+  ));
 }
 
 let selected = -1;
@@ -96,6 +77,7 @@ let sectionAnimations = [];
 function select(index) {
   if (index === selected) return;
   const isFirstSelection = selected === -1;
+  const direction = index > selected ? 1 : -1;
   if (!isFirstSelection) highlight(rows[selected], false, true);
   highlight(rows[index], true, !isFirstSelection);
   selected = index;
@@ -123,15 +105,20 @@ function select(index) {
   if (isFirstSelection || reducedMotion.matches) return;
   const parts = [caption];
   if (activeIntro) parts.push(activeIntro);
-  if (!aboutPortal.hidden) parts.push(aboutPortal, aboutTags);
-  if (!workProjects.hidden) parts.push(workProjects);
-  if (!artifactTags.hidden) parts.push(artifactTags);
-  if (!contactTags.hidden) parts.push(contactTags);
+  if (!aboutPortal.hidden) parts.push(aboutPortal);
   if (!eventsPortal.hidden) parts.push(eventsPortal);
   sectionAnimations = parts.map(part => part.animate(
-    [{ opacity: 0, translate: '0 8px' }, { opacity: 1, translate: '0 0' }],
-    { duration: 300, easing: 'cubic-bezier(.2, .75, .25, 1)' }
+    [{ opacity: 0, translate: `0 ${direction * 18}px` }, { opacity: 1, translate: '0 0' }],
+    { duration: 680, easing: revealEasing }
   ));
+
+  const tags = document.querySelectorAll('.section-tags:not([hidden]) > li');
+  tags.forEach((tag, tagIndex) => {
+    sectionAnimations.push(tag.animate(
+      [{ opacity: 0, translate: `0 ${direction * 14}px` }, { opacity: 1, translate: '0 0' }],
+      { duration: 580, delay: tagIndex * 40, easing: revealEasing, fill: 'backwards' }
+    ));
+  });
 }
 
 function sectionSpacing(height) {
@@ -142,7 +129,7 @@ function scrollToSection(index) {
   const bounds = list.getBoundingClientRect();
   const distance = (index + .5) * sectionSpacing(bounds.height);
   const top = distance + Math.max(0, window.scrollY + bounds.top - window.innerHeight / 2 - 1);
-  if (smoothScroll) smoothScroll.scrollTo(top, { immediate: true });
+  if (smoothScroll) smoothScroll.scrollTo(top, { duration: 1.15 });
   else window.scrollTo(0, top);
 }
 
@@ -173,7 +160,9 @@ function updateScrollMotion() {
   }
 
   smoothScroll = new Lenis({
-    duration: 1.2,
+    duration: 1.55,
+    easing: progress => 1 - Math.pow(1 - progress, 4),
+    wheelMultiplier: 0.72,
     autoRaf: true,
     anchors: true,
     allowNestedScroll: true,

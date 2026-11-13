@@ -222,9 +222,17 @@ button { font: inherit; color: inherit; }
   letter-spacing: -.04em;
   text-align: left;
   color: #e4e4e4;
+  transition: translate 650ms cubic-bezier(.22, 1, .36, 1);
 }
 
-.section-list button[aria-current='true'] { color: #111; }
+.section-list button[aria-current='true'] {
+  color: #111;
+  translate: 6px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-list button { transition: none; }
+}
 
 .section-details {
   position: sticky;
