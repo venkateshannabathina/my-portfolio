@@ -1,95 +1,85 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Venkatesh Annabathina’s portfolio of work, artifacts, events, and Mighty Star.">
-  <title>Venkatesh Annabathina — Portfolio</title>
-  <link rel="icon" href="assets/kERMSwCuDVncwKoOheLRutVYO0o.png">
-  <link rel="preload" href="assets/fonts/bdo-grotesk.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="gallery.css?v=weighted-scroll">
-  <script type="module" src="gallery.js?v=weighted-scroll"></script>
-</head>
-<body>
-  <main class="portfolio">
-    <header class="portfolio-header">
-      <p class="scroll-label">Scroll down</p>
-      <div class="section-intros">
-        <div class="section-intro section-intro-about is-active" data-intro="About">
-          <h1 class="section-intro-name">Venkatesh Annabathina</h1>
-        </div>
-        <p class="section-intro section-intro-copy" data-intro="Work">I work across fields, borrowing ideas from one to solve problems in another.</p>
-        <p class="section-intro section-intro-copy" data-intro="Artifacts">A few things I’ve made along the way. See what catches your eye.</p>
-      </div>
-    </header>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="assets/kERMSwCuDVncwKoOheLRutVYO0o.png"><meta name="description" content="Venkatesh Annabathina’s portfolio of interactive characters, animation tools, and selected projects."><title>Venkatesh Annabathina · Selected work</title>
+<style>
+@font-face{font-family:BDO;src:url(assets/fonts/bdo-grotesk.woff2) format('woff2');font-weight:400 900;font-display:swap}
+*{box-sizing:border-box}body{margin:0;color:#171717;background:#fff;font:1rem/1.4 BDO,Arial,sans-serif}a,button{color:inherit}button{font:inherit;cursor:pointer}a{text-underline-offset:.22em}a:focus-visible,button:focus-visible{outline:3px solid #946134;outline-offset:4px}main{max-width:1580px;margin:auto;padding:0 clamp(1.2rem,4.5vw,5.5rem) 5rem}
+header{display:flex;align-items:center;justify-content:space-between;padding:clamp(2rem,4vw,4.5rem) 0 2.4rem;border-bottom:1px solid #222;gap:2rem}.identity{display:flex;align-items:center;gap:1.2rem}.identity p{max-width:17rem;font-size:clamp(1rem,1.45vw,1.35rem);letter-spacing:-.035em;line-height:1.18}h1{margin:0;text-align:right;font-size:clamp(2.55rem,5.4vw,5.8rem);letter-spacing:-.073em;line-height:.88;font-weight:800}h1 span{display:block}.orb{display:block;width:clamp(3rem,6vw,6rem);aspect-ratio:1;object-fit:cover;border-radius:50%;box-shadow:inset 0 0 4px #fff,0 0 14px #dab47e80}
+.layout{display:grid;grid-template-columns:minmax(190px,26%) 1fr;gap:5%;padding-top:2rem}nav{align-self:start;position:sticky;top:1.5rem;display:grid;justify-items:start;gap:.18rem}nav a{color:#70706d;font-size:clamp(2.15rem,3.25vw,3.7rem);letter-spacing:-.06em;line-height:1.1;text-decoration:none}nav a:hover,nav a[aria-current]{color:#111}nav a[aria-current]{text-decoration:underline;text-decoration-thickness:.055em;text-underline-offset:.11em}
+[hidden]{display:none!important}article{min-width:0}h2,h3,p,figure{margin:0}.stage{background:#070707;overflow:hidden}.stage img{display:block;width:100%;height:clamp(280px,40vh,450px);object-fit:contain}.stage.portrait img{object-fit:cover;object-position:center 42%}.caption{display:flex;gap:1.25rem;justify-content:space-between;align-items:start;padding:1rem 0 1.4rem}.caption h2,.page-title{font-weight:650;letter-spacing:-.06em;line-height:1.03;font-size:clamp(2rem,3.1vw,3rem)}.caption p,.lead{margin:.45rem 0 0;line-height:1.38;max-width:52ch}.action{background:#171717;color:white;text-decoration:none;display:inline-block;border-radius:2rem;padding:.65em 1.15em;white-space:nowrap}.action:hover{background:#42423e}
+.rows{list-style:none;margin:1rem 0 0;padding:0}.rows li{border-top:1px solid #ccc}.rows a{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;text-decoration:none;padding:.85rem 0;font-size:1.18rem;letter-spacing:-.025em}.rows a:hover .row-name{text-decoration:underline}.rows small{font-size:.875rem;color:#62625d}.small-heading{margin-top:2rem;font-size:1rem;font-weight:550}.art{width:100%;max-height:55vh;object-fit:contain;background:#f5f4f2;display:block}.event-controls{display:flex;gap:.4rem}.event-controls button{background:white;border:1px solid #aaa;border-radius:2rem;padding:.5rem .9rem}.detail-link{display:inline-block;margin-top:.6rem}.mini{display:flex;gap:1rem;align-items:center;margin-bottom:1rem}.mini img{width:5rem}
+@media(max-width:720px){main{padding-bottom:3rem}header{align-items:flex-start;gap:.75rem;padding:1.8rem 0 1.5rem;flex-wrap:wrap-reverse}h1{text-align:left;width:100%}.identity{gap:.75rem}.identity p{max-width:19rem}.orb{width:2.65rem}.layout{display:block;padding-top:0}nav{position:static;display:flex;flex-wrap:wrap;gap:.25rem 1.15rem;padding:.8rem 0 1.1rem}nav a{font-size:1.1rem;line-height:1.9;letter-spacing:-.03em}.stage img{height:auto;aspect-ratio:1.28}.caption{flex-wrap:wrap;gap:.85rem}.rows a{font-size:1.06rem}.small-heading{margin-top:1.4rem}.art{max-height:50vh}}
+.identity p{display:grid}.identity p span{grid-area:1/1;align-self:center;transition:opacity .3s ease}.identity p span[aria-hidden="true"]{opacity:0}@media(prefers-reduced-motion:reduce){.identity p span{transition:none}}
+.sections{min-width:0}
+article{scroll-margin-top:1.5rem}
+#contact{min-height:60svh}
+article+article{margin-top:clamp(3rem,7vw,6rem)}
+@media(max-width:720px){nav{position:sticky;top:0;z-index:1;background:white}article{scroll-margin-top:var(--nav-height,5rem)}}
+@keyframes project-enter{from{transform:translateY(8px)}to{transform:translateY(0)}}
+@media(prefers-reduced-motion:no-preference){.project-visual.entered{animation:project-enter 220ms ease-out}}
+</style></head><body><main>
+<header><div class="identity"><video class="orb" poster="assets/about-portal.jpg" muted playsinline loop aria-hidden="true"><source src="assets/about-portal.mp4" type="video/mp4"></video><p><span>I build interactive characters and tools for animation.</span><span aria-hidden="true">Sometimes I just build some crazy shit.</span></p></div><h1>Venkatesh<span>Annabathina</span></h1></header>
+<div class="layout"><nav aria-label="Portfolio sections"><a href="#work" aria-current="location">Work</a><a href="#about">About</a><a href="#artifacts">Artifacts</a><a href="#events">Events</a><a href="#contact">Contact</a></nav>
+<div class="sections"><article id="work"><div class="project-visual"><div class="stage portrait"><img src="assets/tasha.jpg" alt="Tasha, a 3D character with pink hair, rendered against black"></div><div class="caption"><div><h2>FACE</h2><p>I blink. She blinks. That’s FACE.</p></div><a class="action" href="https://venkateshannabathina.in/face/?camera=1">Try FACE</a></div></div>
+<h3 class="small-heading">More projects</h3><ul class="rows"><li><a href="https://github.com/venkateshannabathina/MightyStar/blob/main/README.md"><span class="row-name">Mighty Star</span><small>GitHub</small></a></li><li><a href="https://github.com/venkateshannabathina/Blender-animation-retargeting/blob/main/README.md"><span class="row-name">Blender Animation Retargeting</span><small>GitHub</small></a></li><li><a href="https://github.com/venkateshannabathina/mightyeye-observations/blob/main/README.md"><span class="row-name">MightyEye</span><small>GitHub</small></a></li><li><a href="https://github.com/venkateshannabathina/silver_knight/blob/main/ui/README.md"><span class="row-name">Silver Knight</span><small>GitHub</small></a></li><li><a href="https://github.com/venkateshannabathina/icanseeyou_isro/blob/main/README.md"><span class="row-name">icanseeyou_isro</span><small>GitHub</small></a></li><li><a href="https://github.com/venkateshannabathina/project-ningen/blob/main/README.md"><span class="row-name">Ningen</span><small>GitHub</small></a></li><li><a href="https://github.com/venkateshannabathina/agent-memory-compresser/blob/main/README.md"><span class="row-name">Memory Compresser</span><small>GitHub</small></a></li><li><a href="https://github.com/venkateshannabathina/24Live/blob/main/readme.md"><span class="row-name">24Live</span><small>GitHub</small></a></li></ul></article>
+<article id="about"><div class="project-visual"><img class="art" src="assets/events/pencil-sketch.jpg" alt="A hand-drawn pencil portrait beside a blue pencil"><div class="caption"><div><h2>About me</h2><p>I work across drawing, 3D characters and software. My projects range from a character you can talk to, Mighty Star, to tools for bringing motion into Blender.</p><a class="detail-link" href="#work">Explore my work</a></div></div></div></article>
+<article id="artifacts"><div class="project-visual"><img class="art" src="assets/expressions.jpg" alt="Four close-ups of Tasha’s mouth comparing a closed smile, visible teeth, speech opening and open smile"><div class="caption"><div><h2>Expression study</h2><p>Four mouth poses from FACE, from a closed smile to a small speech opening.</p></div><a class="action" href="https://venkateshannabathina.in/face/?camera=1">Try FACE</a></div></div></article>
+<article id="events"><div class="project-visual"><img id="event-image" class="art" alt=""><div class="caption"><div aria-live="polite"><h2 id="event-title"></h2><p id="event-summary"></p></div><div class="event-controls"><button id="prev" aria-label="Previous photo">Previous</button><button id="next" aria-label="Next photo">Next</button></div></div></div></article>
+<article id="contact"><h2 class="page-title">Get in touch</h2><p class="lead"><a href="mailto:venkateshannabathina96@gmail.com">venkateshannabathina96@gmail.com</a></p><ul class="rows"><li><a href="https://www.linkedin.com/in/venkatesh-annabathina-893066323/"><span class="row-name">LinkedIn</span><small></small></a></li><li><a href="https://github.com/venkateshannabathina"><span class="row-name">GitHub</span><small></small></a></li><li><a href="https://www.instagram.com/venkateshannabathinaa/"><span class="row-name">Instagram</span><small></small></a></li><li><a href="https://huggingface.co/venkateshannabathina"><span class="row-name">Hugging Face</span><small></small></a></li></ul></article>
+</div></div></main><script type="module">
+const motion = matchMedia('(prefers-reduced-motion: reduce)');
+const navigation = document.querySelector('nav');
+const menu = Array.from(navigation.querySelectorAll('a'));
+const sections = menu.map(link => document.getElementById(link.hash.slice(1)));
 
-    <section class="showcase" aria-label="Portfolio sections">
-      <ul class="section-list"></ul>
-      <div class="media-portal about-portal" role="img" aria-label="Golden foliage inside a glowing glass circle">
-        <video src="assets/about-portal.mp4" poster="assets/about-portal.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
-        <canvas aria-hidden="true"></canvas>
-      </div>
-      <div class="section-details">
-        <ul class="section-tags about-tags" aria-label="Things I do">
-          <li>#Building</li>
-          <li>#Designing</li>
-          <li>#Rendering</li>
-          <li class="about-tag-secondary">#Researching</li>
-          <li class="about-tag-secondary">#Learning</li>
-          <li class="about-tag-secondary">#Cooking</li>
-        </ul>
-        <ul class="section-tags work-projects" role="list" aria-label="GitHub project READMEs, newest first" hidden>
-          <li><a href="https://github.com/venkateshannabathina/MightyStar/blob/main/README.md">#Mighty<wbr>Star</a></li>
-          <li><a href="https://github.com/venkateshannabathina/Blender-animation-retargeting/blob/main/README.md">#Blender<wbr>Animation<wbr>Retargeting</a></li>
-          <li><a href="https://github.com/venkateshannabathina/mightyeye-observations/blob/main/README.md">#MightyEye</a></li>
-          <li><a href="https://github.com/venkateshannabathina/silver_knight/blob/main/ui/README.md">#Silver<wbr>Knight</a></li>
-          <li><a href="https://github.com/venkateshannabathina/icanseeyou_isro/blob/main/README.md">#icansee<wbr>you_isro</a></li>
-          <li><a href="https://github.com/venkateshannabathina/project-ningen/blob/main/README.md">#Ningen</a></li>
-          <li><a href="https://github.com/venkateshannabathina/agent-memory-compresser/blob/main/README.md">#Memory<wbr>Compresser</a></li>
-          <li><a href="https://github.com/venkateshannabathina/24Live/blob/main/readme.md">#24Live</a></li>
-        </ul>
-        <ul class="section-tags artifact-tags" aria-label="Artifacts" hidden>
-          <li><a href="/face/?camera=1">#FACE</a></li>
-        </ul>
-        <ul class="section-tags contact-tags" id="contact-links" aria-label="Contact links" hidden>
-          <li><a href="https://www.linkedin.com/in/venkatesh-annabathina-893066323/">#LinkedIn</a></li>
-          <li><a href="https://github.com/venkateshannabathina">#GitHub</a></li>
-          <li><a href="https://www.instagram.com/venkateshannabathinaa/">#Instagram</a></li>
-          <li><a href="mailto:venkateshannabathina96@gmail.com">#Gmail</a></li>
-          <li><a href="https://huggingface.co/venkateshannabathina">#Hugging<wbr>Face</a></li>
-        </ul>
-        <div class="media-portal events-portal" id="events-portal" role="region" aria-label="Events photo stories" hidden>
-          <div class="story-frame">
-            <div class="story-card">
-              <div class="story-photos"></div>
-              <canvas aria-hidden="true"></canvas>
-            </div>
-            <div class="story-overlay">
-              <div class="story-top">
-                <div class="story-label" aria-live="off">
-                  <h2 class="story-title"></h2>
-                  <p class="story-summary"></p>
-                </div>
-                <button class="story-playback" type="button" aria-label="Pause stories" aria-keyshortcuts="ArrowLeft ArrowRight">
-                  <svg class="story-play-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 4v16l12-8z"/></svg>
-                  <svg class="story-pause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M7 4v16M17 4v16"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p class="section-caption"><span class="section-number">01 / 06</span>   <span class="section-name">About</span></p>
-      </div>
-    </section>
-  </main>
+function updateNavigation() {
+  const readingLine = Math.max(innerHeight * .3, parseFloat(getComputedStyle(sections[0]).scrollMarginTop) + 1);
+  const atBottom = scrollY + innerHeight >= document.documentElement.scrollHeight - 2;
+  const current = atBottom ? sections.at(-1) : sections.filter(section => section.getBoundingClientRect().top <= readingLine).pop() || sections[0];
+  for (const link of menu) {
+    if (link.hash === '#' + current.id) link.setAttribute('aria-current','location');
+    else link.removeAttribute('aria-current');
+  }
+}
+new ResizeObserver(() => {
+  document.documentElement.style.setProperty('--nav-height', navigation.offsetHeight + 'px');
+  updateNavigation();
+}).observe(navigation);
+window.addEventListener('scroll', updateNavigation, {passive:true});
+window.addEventListener('pageshow', updateNavigation);
+window.addEventListener('resize', updateNavigation);
+updateNavigation();
 
-  <dialog class="section-dialog" aria-labelledby="section-title" data-lenis-prevent>
-    <header class="dialog-header">
-      <h2 id="section-title"></h2>
-      <form method="dialog"><button class="close-button" aria-label="Close section" autofocus>×</button></form>
-    </header>
-    <img class="section-media" alt="">
-    <a class="dialog-project-link" href="/face/?camera=1" hidden>Open FACE ↗</a>
-  </dialog>
-</body>
-</html>
+const entryObserver = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    entry.target.classList.add('entered');
+    entryObserver.unobserve(entry.target);
+  }
+});
+for (const visual of document.querySelectorAll('.project-visual')) {
+  if (visual.getBoundingClientRect().top >= innerHeight) entryObserver.observe(visual);
+}
+const orb=document.querySelector('video');
+function syncMotion(){if(motion.matches)orb.pause();else orb.play().catch(()=>{})}
+syncMotion();motion.addEventListener('change',syncMotion);
+const taglines = document.querySelectorAll('.identity p span');
+let taglineIndex = 0;
+window.setInterval(() => {
+  if (document.hidden) return;
+  taglines[taglineIndex].setAttribute('aria-hidden','true');
+  taglineIndex = (taglineIndex + 1) % taglines.length;
+  taglines[taglineIndex].removeAttribute('aria-hidden');
+}, 4500);
+const stories=[{"src": "assets/events/deepmind-01.jpg", "title": "Google DeepMind Hackathon", "summary": "Bangalore \u00b7 July 2026", "alt": "Two attendees in front of the blue hackathon sign"}, {"src": "assets/events/deepmind-02.jpg", "title": "Google DeepMind Hackathon", "summary": "Bangalore \u00b7 July 2026", "alt": "Two attendees giving thumbs up in front of the stage"}, {"src": "assets/events/cinema.jpg", "title": "Cinema", "summary": "A night at the movies", "alt": "A costumed ensemble on a cinema screen"}, {"src": "assets/events/meta-openenv.jpg", "title": "Meta Hackathon", "summary": "OpenEnv \u00d7 Scaler", "alt": "Orange and pink OpenEnv Hackathon participant badge"}, {"src": "assets/events/campus-tech.jpg", "title": "Campus Tech", "summary": "Access terminal at LPU", "alt": "Campus access terminal with a red status light and a blue screen"}, {"src": "assets/events/hack-n-win.jpg", "title": "Hack-N-Win 3.0", "summary": "CGC University, Mohali", "alt": "Hack-N-Win stage backdrop at CGC University"}, {"src": "assets/events/companion-prototype.jpg", "title": "Projects", "summary": "3D AI companion", "alt": "A 3D character in the AI companion prototype"}, {"src": "assets/events/pencil-sketch.jpg", "title": "ART", "summary": "Pencil portrait", "alt": "Pencil drawing of a swordsman beside a blue pencil"}, {"src": "assets/events/character-study.jpg", "title": "ART", "summary": "Sketchbook character study", "alt": "Character study in a sketchbook with the reference on a laptop"}];
+let story=0;
+function showPhoto(offset){
+ story=(story+offset+stories.length)%stories.length;
+ const item=stories[story],image=document.getElementById('event-image');
+ image.src=item.src;image.alt=item.alt;
+ document.getElementById('event-title').textContent=item.title;
+ document.getElementById('event-summary').textContent=item.summary+' · '+(story+1)+' / '+stories.length;
+}
+document.getElementById('prev').onclick=()=>showPhoto(-1);
+document.getElementById('next').onclick=()=>showPhoto(1);
+showPhoto(0);
+</script></body></html>
