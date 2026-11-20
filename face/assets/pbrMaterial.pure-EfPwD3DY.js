@@ -1,0 +1,1 @@
+export{t as PBRMaterial,n as RegisterPBRMaterial,r as RegisterPbrMaterial}from"./pbrMaterial.pure-D7vF7IH4.js";
